@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+:root {
+  /* Couleurs principales */
+  --background: #ffffff;
+  --foreground: #1A3329;
+
+  /* Vert foncé → sérieux / professionnel */
+  --primary-green: #1B6B3A;
+  --primary-green-hover: #155230;
+
+  /* Vert clair → jeune / dynamique */
+  --accent-green: #27AE60;
+  --accent-green-hover: #219150;
+
+  /* Blanc → propreté, lisibilité */
+  --bg-white: #ffffff;
+
+  /* Gris → équilibre */
+  --bg-soft-gray: #F4F6F5;
+  --text-gray: #64748B;
+
+  /* Bleu léger → confiance */
+  --trust-blue: #EAF4FB;
+  --trust-blue-accent: #5DADE2;
+
+  /* Sombres pour footer/header */
+  --dark-green: #0F2D1E;
+  --dark-green-mid: #1A4D2E;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Ensure all interactive elements have a pointer cursor */
+button,
+[role="button"] {
+  cursor: pointer;
+}
