@@ -19,6 +19,7 @@ export const Footer = () => {
                     <div>
                         <h4 className="text-white font-bold text-base mb-5">Liens rapides</h4>
                         <ul className="space-y-3">
+                            <li><Link href="/about" className="hover:text-white transition-colors">À Propos</Link></li>
                             <li><Link href="#features" className="hover:text-white transition-colors">Fonctionnalités</Link></li>
                             <li><Link href="#who" className="hover:text-white transition-colors">Pour qui ?</Link></li>
                             <li><Link href="#pricing" className="hover:text-white transition-colors">Tarifs</Link></li>

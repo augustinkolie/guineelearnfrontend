@@ -16,9 +16,12 @@ import {
     Menu,
     X,
     User,
+    Users,
     CheckCircle,
     Activity,
-    BarChart3
+    BarChart3,
+    TrendingUp,
+    Banknote
 } from 'lucide-react';
 import { Logo } from './Logo';
 
@@ -51,16 +54,23 @@ export const DashboardLayout = ({ children, user }: { children: React.ReactNode,
     const menuItems = [
         { icon: LayoutDashboard, label: 'Tableau de bord', href: '/dashboard' },
         { icon: User, label: 'Mon Profil', href: '/dashboard/profile' },
-        { icon: BookOpen, label: 'Mes Cours', href: '/dashboard/courses' },
-        { icon: CheckCircle, label: 'Quiz', href: '/dashboard/quiz' },
-        { icon: Activity, label: 'Progression', href: '/dashboard/progression' },
-        { icon: FileText, label: 'Mes Ressources', href: '/dashboard/resources' },
-        { icon: Calendar, label: 'Calendrier', href: '/dashboard/calendar' },
-        { icon: Settings, label: 'Paramètres', href: '/dashboard/settings' },
+        ...(user?.role === 'ADMIN' ? [
+            { icon: Users, label: 'Gestion Utilisateurs', href: '/dashboard/users' },
+            { icon: BookOpen, label: 'Contenu & Cours', href: '/dashboard/admin-courses' },
+            { icon: BarChart3, label: 'Statistiques', href: '/dashboard/stats' },
+            { icon: Banknote, label: 'Finance', href: '/dashboard/finance' },
+            { icon: Activity, label: 'Temps réel', href: '/dashboard/realtime' },
+        ] : [
+            { icon: BookOpen, label: 'Mes Cours', href: '/dashboard/courses' },
+            { icon: CheckCircle, label: 'Quiz', href: '/dashboard/quiz' },
+            { icon: TrendingUp, label: 'Progression', href: '/dashboard/progression' },
+            { icon: FileText, label: 'Mes Ressources', href: '/dashboard/resources' },
+            { icon: Calendar, label: 'Calendrier', href: '/dashboard/calendar' },
+        ])
     ];
 
     return (
-        <div className="min-h-screen bg-[#F8FAFC] flex font-sans">
+        <div className={`min-h-screen flex font-sans ${pathname?.startsWith('/dashboard/realtime') ? 'bg-black' : 'bg-[#F8FAFC]'}`}>
             {/* Mobile Sidebar Overlay */}
             {isSidebarOpen && (
                 <div 
@@ -71,7 +81,7 @@ export const DashboardLayout = ({ children, user }: { children: React.ReactNode,
 
             {/* Sidebar */}
             <aside className={`
-                fixed lg:sticky top-0 left-0 h-screen w-72 bg-[#0F2D1E] border-r border-white/5 z-50 
+                fixed lg:sticky top-0 left-0 h-screen w-72 bg-[#0F2D1E] border-r border-white/5 z-50 print:hidden
                 transition-transform duration-300 lg:translate-x-0
                 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
             `}>
@@ -122,39 +132,45 @@ export const DashboardLayout = ({ children, user }: { children: React.ReactNode,
             {/* Main Content */}
             <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
                 {/* Header */}
-                <header className="h-20 bg-white/80 backdrop-blur-md border-b border-gray-100 fixed top-0 right-0 left-0 lg:left-72 z-40 px-4 md:px-8">
+                <header className={`h-20 backdrop-blur-md border-b fixed top-0 right-0 left-0 lg:left-72 z-40 px-4 md:px-8 print:hidden transition-colors duration-500 overflow-hidden ${
+                    pathname?.startsWith('/dashboard/realtime') 
+                    ? 'bg-[#0A1A11]/80 border-white/5' 
+                    : 'bg-white/80 border-gray-100'
+                }`}>
                     <div className="h-full flex items-center justify-between">
                         <div className="flex items-center gap-4">
                             <button 
                                 onClick={() => setIsSidebarOpen(true)}
-                                className="p-2 hover:bg-gray-50 rounded-lg lg:hidden text-gray-500"
+                                className={`p-2 rounded-lg lg:hidden transition-colors ${pathname?.startsWith('/dashboard/realtime') ? 'hover:bg-white/10 text-gray-300' : 'hover:bg-gray-50 text-gray-500'}`}
                             >
                                 <Menu className="w-6 h-6" />
                             </button>
                             
-                            <div className="hidden md:flex items-center gap-3 bg-gray-50 px-4 py-2.5 rounded-xl border border-gray-100 w-80 group focus-within:border-[#1B6B3A]/40 transition-all">
-                                <Search className="w-4 h-4 text-gray-400 group-focus-within:text-[#1B6B3A]" />
+                            <div className={`hidden md:flex items-center gap-3 px-4 py-2.5 rounded-xl border w-80 group transition-all ${
+                                pathname?.startsWith('/dashboard/realtime') 
+                                ? 'bg-[#152e20] border-white/10 focus-within:border-emerald-500/50' 
+                                : 'bg-gray-50 border-gray-100 focus-within:border-[#1B6B3A]/40'
+                            }`}>
+                                <Search className={`w-4 h-4 ${pathname?.startsWith('/dashboard/realtime') ? 'text-gray-400 group-focus-within:text-emerald-400' : 'text-gray-400 group-focus-within:text-[#1B6B3A]'}`} />
                                 <input 
                                     type="text" 
                                     placeholder="Rechercher un cours..." 
-                                    className="bg-transparent border-none outline-none text-sm w-full font-medium"
+                                    className={`bg-transparent border-none outline-none text-sm w-full font-medium ${pathname?.startsWith('/dashboard/realtime') ? 'text-white placeholder-gray-500' : 'text-gray-800 placeholder-gray-400'}`}
                                 />
                             </div>
                         </div>
 
                         <div className="flex items-center gap-3 md:gap-6">
-                            <button className="relative p-2.5 text-gray-500 hover:bg-[#E8F5EE] hover:text-[#1B6B3A] rounded-xl transition-all group border border-transparent hover:border-[#1B6B3A]/10">
-                                <Bell className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                                {/* Pulsing Badge Indicator */}
-                                <span className="absolute top-2.5 right-2.5 flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500 border border-white"></span>
+                            <button className={`relative p-2 rounded-xl transition-all group ${
+                                pathname?.startsWith('/dashboard/realtime') 
+                                ? 'text-gray-400 hover:bg-white/5' 
+                                : 'text-gray-500 hover:bg-gray-50'
+                            }`}>
+                                <Bell className="w-6 h-6 transition-transform group-active:scale-95" />
+                                {/* Notification Badge with Counter */}
+                                <span className="absolute -top-0.5 -right-0.5 h-5 w-5 bg-[#FF3B30] border-2 border-white rounded-full flex items-center justify-center shadow-sm transition-transform group-hover:scale-110">
+                                    <span className="text-white text-[10px] font-black leading-none">3</span>
                                 </span>
-                                
-                                {/* Elegant Counter Badge */}
-                                <div className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-black h-4 w-4 rounded-full flex items-center justify-center border-2 border-white shadow-sm scale-0 group-hover:scale-110 transition-transform">
-                                    3
-                                </div>
                             </button>
 
                             <div className="h-8 w-px bg-gray-100" />
@@ -168,7 +184,7 @@ export const DashboardLayout = ({ children, user }: { children: React.ReactNode,
                                     )}
                                 </div>
                                 <div className="hidden md:block text-left">
-                                    <p className="text-sm font-medium text-[#0F2D1E] leading-none mb-1">{user?.fullName || 'Utilisateur'}</p>
+                                    <p className={`text-sm font-medium leading-none mb-1 ${pathname?.startsWith('/dashboard/realtime') ? 'text-white' : 'text-[#0F2D1E]'}`}>{user?.fullName || 'Utilisateur'}</p>
                                 </div>
                             </div>
                         </div>
@@ -176,8 +192,8 @@ export const DashboardLayout = ({ children, user }: { children: React.ReactNode,
                 </header>
 
                 {/* Page Content */}
-                <main className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-10 pt-24 md:pt-28 lg:pt-32">
-                    <div className="max-w-7xl mx-auto">
+                <main className={`flex-1 overflow-y-auto print:p-0 print:overflow-visible ${pathname?.startsWith('/dashboard/realtime') ? 'bg-black pt-20' : 'p-4 md:p-8 lg:p-10 pt-24 md:pt-28 lg:pt-32'}`}>
+                    <div className={pathname?.startsWith('/dashboard/realtime') ? 'w-full min-h-[calc(100vh-5rem)]' : 'max-w-7xl mx-auto'}>
                         {children}
                     </div>
                 </main>

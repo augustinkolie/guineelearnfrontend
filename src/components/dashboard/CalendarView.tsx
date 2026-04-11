@@ -32,9 +32,49 @@ const PRESET_COLORS = [
 ];
 
 export const CalendarView = () => {
-    const [currentWeek, setCurrentWeek] = useState('05 - 11 Avril 2026');
+    // Reference date for the week (starts with April 6, 2026 to match the UI screenshot)
+    const [baseDate, setBaseDate] = useState(new Date(2026, 3, 6)); 
     const [events, setEvents] = useState(INITIAL_EVENTS);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // Date Utilities
+    const getStartOfWeek = (date: Date) => {
+        const d = new Date(date);
+        const day = d.getDay();
+        const diff = d.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is sunday
+        return new Date(d.setDate(diff));
+    };
+
+    const formatWeekRange = (date: Date) => {
+        const start = getStartOfWeek(date);
+        const end = new Date(start);
+        end.setDate(start.getDate() + 6);
+        
+        const formatDay = (d: Date) => d.getDate().toString().padStart(2, '0');
+        const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+        
+        return `${formatDay(start)} - ${formatDay(end)} ${months[end.getMonth()]} ${end.getFullYear()}`;
+    };
+
+    const getDayNumber = (date: Date, index: number) => {
+        const start = getStartOfWeek(date);
+        const d = new Date(start);
+        d.setDate(start.getDate() + index);
+        return d.getDate();
+    };
+
+    const handlePrevWeek = () => {
+        const newDate = new Date(baseDate);
+        newDate.setDate(baseDate.getDate() - 7);
+        setBaseDate(newDate);
+    };
+
+    const handleNextWeek = () => {
+        const newDate = new Date(baseDate);
+        newDate.setDate(baseDate.getDate() + 7);
+        setBaseDate(newDate);
+    };
+
     
     // Form State
     const [newTitle, setNewTitle] = useState('');
@@ -75,14 +115,20 @@ export const CalendarView = () => {
                 </div>
 
                 <div className="flex items-center gap-3 bg-white p-2 rounded-2xl border border-gray-100 shadow-sm">
-                    <button className="p-2 hover:bg-gray-50 rounded-xl transition-all text-gray-400">
+                    <button 
+                        onClick={handlePrevWeek}
+                        className="p-2 hover:bg-gray-50 rounded-xl transition-all text-gray-400"
+                    >
                         <ChevronLeft className="w-5 h-5" />
                     </button>
                     <div className="px-4 flex items-center gap-2">
                         <CalendarIcon className="w-4 h-4 text-[#1B6B3A]" />
-                        <span className="text-sm font-black text-[#0F2D1E] whitespace-nowrap">{currentWeek}</span>
+                        <span className="text-sm font-black text-[#0F2D1E] whitespace-nowrap">{formatWeekRange(baseDate)}</span>
                     </div>
-                    <button className="p-2 hover:bg-gray-50 rounded-xl transition-all text-gray-400">
+                    <button 
+                        onClick={handleNextWeek}
+                        className="p-2 hover:bg-gray-50 rounded-xl transition-all text-gray-400"
+                    >
                         <ChevronRight className="w-5 h-5" />
                     </button>
                 </div>
@@ -111,11 +157,11 @@ export const CalendarView = () => {
             <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
                 <div className="grid grid-cols-8 border-b border-gray-50">
                     <div className="p-6 border-r border-gray-50 invisible md:visible" />
-                    {weekDays.map((day) => (
+                    {weekDays.map((day, index) => (
                         <div key={day} className="p-6 text-center border-r border-gray-50 last:border-0">
                             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{day}</p>
                             <p className={`text-lg font-black ${day === 'Mer' ? 'text-[#1B6B3A]' : 'text-[#0F2D1E]'}`}>
-                                {8 + weekDays.indexOf(day)}
+                                {getDayNumber(baseDate, index)}
                             </p>
                         </div>
                     ))}

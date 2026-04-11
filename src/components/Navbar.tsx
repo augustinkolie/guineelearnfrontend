@@ -198,6 +198,7 @@ export const Navbar = () => {
                         </AnimatePresence>
                     </div>
 
+                    <Link href="/about" className={`transition-colors text-sm font-bold tracking-tight ${scrolled ? "text-[#0F2D1E] hover:text-[#1B6B3A]" : "text-gray-100 hover:text-white"}`}>À Propos</Link>
                     <Link href="/contact" className={`transition-colors text-sm font-bold tracking-tight ${scrolled ? "text-[#0F2D1E] hover:text-[#1B6B3A]" : "text-gray-100 hover:text-white"}`}>Contact</Link>
                     
                     <div className="relative">
