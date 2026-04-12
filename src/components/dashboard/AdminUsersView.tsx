@@ -200,14 +200,14 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-black text-[#0F2D1E]">Gestion Utilisateurs</h1>
-                    <p className="text-gray-500 font-medium">Administrez les comptes et les accès de la plateforme.</p>
+                    <h1 className="text-2xl font-black text-[#0F2D1E]">Gestion Utilisateurs</h1>
+                    <p className="text-gray-500 font-medium text-xs">Administrez les comptes et les accès de la plateforme.</p>
                 </div>
                 <button 
                     onClick={() => setIsInviteModalOpen(true)}
-                    className="flex items-center gap-2 px-6 py-3 bg-[#1B6B3A] text-white rounded-xl font-bold hover:bg-[#155230] transition-all shadow-lg shadow-[#1B6B3A]/20"
+                    className="flex items-center gap-2 px-6 py-2.5 bg-[#1B6B3A] text-white rounded-xl font-bold text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-[#1B6B3A]/20 disabled:opacity-50"
                 >
-                    <UserPlus className="w-5 h-5" /> Inviter un utilisateur
+                    <UserPlus className="w-4 h-4" /> Inviter un utilisateur
                 </button>
             </div>
 
@@ -344,7 +344,7 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
             {/* Details Modal */}
             {isDetailsModalOpen && userToShow && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-                    <div className="bg-white rounded-3xl p-8 max-w-lg w-full mx-4 shadow-2xl animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
+                    <div className="bg-white rounded-2xl p-8 max-w-lg w-full mx-4 shadow-2xl animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
                         <div className="flex items-center justify-between mb-8">
                             <h2 className="text-2xl font-black text-[#0F2D1E]">Détails Utilisateur</h2>
                             <button onClick={() => setIsDetailsModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-xl transition-all">
@@ -437,7 +437,7 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
             {/* Edit Modal */}
             {isEditModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-                    <div className="bg-white rounded-3xl p-8 max-w-lg w-full mx-4 shadow-2xl animate-in zoom-in-95 duration-200">
+                    <div className="bg-white rounded-2xl p-8 max-w-lg w-full mx-4 shadow-2xl animate-in zoom-in-95 duration-200">
                         <div className="flex items-center justify-between mb-8">
                             <h2 className="text-2xl font-black text-[#0F2D1E]">Modifier Utilisateur</h2>
                             <button onClick={() => setIsEditModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-xl transition-all">

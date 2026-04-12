@@ -7,7 +7,8 @@ import {
     ArrowRight, 
     ShieldCheck, 
     Trophy,
-    Play
+    Play,
+    FileCheck
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -79,51 +80,51 @@ export const QuizView = ({ profile }: { profile: any }) => {
             </div>
 
             {/* Quiz Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {currentQuizzes.map((quiz) => (
                     <motion.div
                         key={quiz.id}
                         whileHover={{ y: -5 }}
                         className="bg-white rounded-2xl border border-gray-100 shadow-xl shadow-gray-200/40 p-1 overflow-hidden group"
                     >
-                        <div className="p-7">
-                            <div className="flex justify-between items-start mb-6">
-                                <div className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border ${getDifficultyColor(quiz.difficulty)}`}>
+                        <div className="p-5">
+                            <div className="flex justify-between items-start mb-4">
+                                <div className={`px-2.5 py-0.5 rounded-full text-[8px] font-black uppercase tracking-wider border ${getDifficultyColor(quiz.difficulty)}`}>
                                     {quiz.difficulty}
                                 </div>
                                 {quiz.score !== null && (
-                                    <div className="flex items-center gap-1.5 px-3 py-1 bg-[#E8F5EE] rounded-full text-[#1B6B3A] text-xs font-black ring-4 ring-[#E8F5EE]/50">
-                                        <ShieldCheck className="w-3.5 h-3.5" />
+                                    <div className="flex items-center gap-1.5 px-2 py-0.5 bg-[#E8F5EE] rounded-full text-[#1B6B3A] text-[9px] font-black ring-4 ring-[#E8F5EE]/30">
+                                        <ShieldCheck className="w-3 h-3" />
                                         {quiz.score}%
                                     </div>
                                 )}
                             </div>
 
-                            <h3 className="text-xl font-extrabold text-[#0F2D1E] mb-2 leading-tight group-hover:text-[#1B6B3A] transition-colors">
+                            <h3 className="text-base font-extrabold text-[#0F2D1E] mb-1 leading-tight group-hover:text-[#1B6B3A] transition-colors">
                                 {quiz.title}
                             </h3>
-                            <p className="text-sm font-bold text-gray-400 mb-6 uppercase tracking-widest text-[10px]">
+                            <p className="text-[9px] font-bold text-gray-400 mb-4 uppercase tracking-widest">
                                 {quiz.subject}
                             </p>
 
-                            <div className="flex items-center gap-6 mb-8 text-gray-500">
-                                <div className="flex items-center gap-2">
-                                    <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center">
-                                        <FileCheck className="w-4 h-4 text-gray-400" />
+                            <div className="flex items-center gap-4 mb-5 text-gray-500">
+                                <div className="flex items-center gap-1.5">
+                                    <div className="w-7 h-7 rounded-lg bg-gray-50 flex items-center justify-center">
+                                        <FileCheck className="w-3.5 h-3.5 text-gray-400" />
                                     </div>
-                                    <span className="text-xs font-bold">{quiz.questions} Ques.</span>
+                                    <span className="text-[10px] font-bold">{quiz.questions} Ques.</span>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center">
-                                        <Clock className="w-4 h-4 text-gray-400" />
+                                <div className="flex items-center gap-1.5">
+                                    <div className="w-7 h-7 rounded-lg bg-gray-50 flex items-center justify-center">
+                                        <Clock className="w-3.5 h-3.5 text-gray-400" />
                                     </div>
-                                    <span className="text-xs font-bold">{quiz.duration}</span>
+                                    <span className="text-[10px] font-bold">{quiz.duration}</span>
                                 </div>
                             </div>
 
-                            <button className="w-full py-4 rounded-2xl bg-[#F8FAFC] group-hover:bg-[#1B6B3A] text-[#1B6B3A] group-hover:text-white font-black text-[12px] uppercase tracking-widest transition-all flex items-center justify-center gap-3 border-2 border-[#1B6B3A]/5 group-hover:border-[#1B6B3A] group-hover:shadow-lg group-hover:shadow-[#1B6B3A]/30">
+                            <button className="w-full py-3 rounded-xl bg-[#F8FAFC] group-hover:bg-[#1B6B3A] text-[#1B6B3A] group-hover:text-white font-black text-[10px] uppercase tracking-widest transition-all flex items-center justify-center gap-2 border-2 border-[#1B6B3A]/5 group-hover:border-[#1B6B3A] group-hover:shadow-lg group-hover:shadow-[#1B6B3A]/30">
                                 {quiz.score !== null ? 'Revoir le test' : 'Commencer'}
-                                <Play className="w-3 h-3 group-hover:fill-current" />
+                                <Play className="w-2.5 h-2.5 group-hover:fill-current" />
                             </button>
                         </div>
                     </motion.div>
@@ -133,5 +134,3 @@ export const QuizView = ({ profile }: { profile: any }) => {
     );
 };
 
-// Placeholder for missing icon since I used FileCheck which I didn't import yet
-import { FileCheck } from 'lucide-react';

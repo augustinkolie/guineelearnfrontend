@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState } from 'react';
 import { Check, Smartphone } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -56,7 +57,45 @@ const plans = [
     },
 ];
 
+import { PaymentModal } from './PaymentModal';
+import { useRouter } from 'next/navigation';
+
 export const Pricing = () => {
+    const router = useRouter();
+    const [selectedPlan, setSelectedPlan] = useState<any>(null);
+    const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+
+    const handlePlanClick = (plan: any) => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            router.push('/login');
+            return;
+        }
+        
+        if (plan.price === "0") {
+            // Free plan logic if needed
+            return;
+        }
+
+        setSelectedPlan(plan);
+        setIsPaymentModalOpen(true);
+    };
+
+    const handlePaymentSuccess = () => {
+        // Update local state and storage to reflect premium status
+        const savedUser = localStorage.getItem('user');
+        if (savedUser) {
+            const user = JSON.parse(savedUser);
+            const updatedUser = { ...user, plan: 'PREMIUM' };
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+            localStorage.setItem('plan', 'PREMIUM');
+        }
+        
+        setIsPaymentModalOpen(false);
+        // Navigate to dashboard or refresh to show premium features
+        window.location.href = '/dashboard';
+    };
+
     return (
         <section className="bg-[#F8FAFC] py-12 px-4 md:px-12 overflow-hidden">
             <div className="max-w-6xl mx-auto">
@@ -128,7 +167,10 @@ export const Pricing = () => {
                                 ))}
                             </ul>
 
-                            <button className={`w-full py-4 rounded-xl text-white font-bold text-base transition-all transform active:scale-95 shadow-xl ${plan.buttonColor}`}>
+                            <button 
+                                onClick={() => handlePlanClick(plan)}
+                                className={`w-full py-4 rounded-xl text-white font-bold text-base transition-all transform active:scale-95 shadow-xl ${plan.buttonColor}`}
+                            >
                                 {plan.buttonText}
                             </button>
                         </motion.div>
@@ -136,6 +178,12 @@ export const Pricing = () => {
                 </div>
 
 
+                <PaymentModal 
+                    isOpen={isPaymentModalOpen}
+                    onClose={() => setIsPaymentModalOpen(false)}
+                    plan={selectedPlan}
+                    onSuccess={handlePaymentSuccess}
+                />
             </div>
         </section>
     );

@@ -69,7 +69,7 @@ export const CoursesView = ({ profile }: { profile: any }) => {
             </div>
 
             {/* Courses Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {currentCourses.map((course) => (
                     <motion.div 
                         key={course.id}
@@ -77,10 +77,11 @@ export const CoursesView = ({ profile }: { profile: any }) => {
                         whileHover={{ y: -8, scale: 1 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.4 }}
-                        className="bg-white rounded-2xl shadow-xl shadow-gray-100/50 border border-gray-100 overflow-hidden relative flex flex-col h-full group"
+                        onClick={() => router.push(`/dashboard/courses/${course.id}?title=${encodeURIComponent(course.title)}&level=${encodeURIComponent(displayedLevel)}`)}
+                        className="bg-white rounded-2xl shadow-xl shadow-gray-100/50 border border-gray-100 overflow-hidden relative flex flex-col h-full group cursor-pointer"
                     >
                         {/* Course Image */}
-                        <div className="relative h-48 sm:h-56 overflow-hidden">
+                        <div className="relative h-40 sm:h-44 overflow-hidden">
                             <img 
                                 src={course.thumbnail} 
                                 alt={course.title} 
@@ -96,9 +97,9 @@ export const CoursesView = ({ profile }: { profile: any }) => {
                         </div>
 
                         {/* Content */}
-                        <div className="p-8 flex flex-col flex-1">
+                        <div className="p-5 flex flex-col flex-1">
                             <div className="space-y-1 mb-4">
-                                <h3 className="text-xl font-extrabold text-[#1B6B3A] line-clamp-1 group-hover:text-[#155230] transition-colors">
+                                <h3 className="text-base font-extrabold text-[#1B6B3A] line-clamp-1 group-hover:text-[#155230] transition-colors">
                                     {course.id}. {course.title}
                                 </h3>
                                 <div className="flex items-center gap-2">
@@ -108,43 +109,26 @@ export const CoursesView = ({ profile }: { profile: any }) => {
                             </div>
 
                             {/* Dotted Line */}
-                            <div className="border-t border-dashed border-gray-100 my-5" />
+                            <div className="border-t border-dashed border-gray-100 my-3" />
 
                             {/* Stats Grid */}
-                            <div className="grid grid-cols-2 gap-x-8 gap-y-4 mb-10">
+                            <div className="grid grid-cols-2 gap-x-6 gap-y-3 mb-2">
                                 <div className="flex items-center justify-between">
-                                    <span className="text-[11px] font-bold text-gray-400 uppercase tracking-tighter">Fiches</span>
-                                    <span className="text-[11px] font-black text-[#1B6B3A]">{course.fiches}</span>
+                                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-tighter">Fiches</span>
+                                    <span className="text-[9px] font-black text-[#1B6B3A]">{course.fiches}</span>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    <span className="text-[11px] font-bold text-gray-400 uppercase tracking-tighter">Exercices</span>
-                                    <span className="text-[11px] font-black text-[#1B6B3A]">{course.exos}</span>
+                                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-tighter">Exercices</span>
+                                    <span className="text-[9px] font-black text-[#1B6B3A]">{course.exos}</span>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    <span className="text-[11px] font-bold text-gray-400 uppercase tracking-tighter">Vidéos</span>
-                                    <span className="text-[11px] font-black text-[#1B6B3A]">{course.videos}</span>
+                                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-tighter">Vidéos</span>
+                                    <span className="text-[9px] font-black text-[#1B6B3A]">{course.videos}</span>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    <span className="text-[11px] font-bold text-gray-400 uppercase tracking-tighter">Pratiques</span>
-                                    <span className="text-[11px] font-black text-[#1B6B3A]">{course.apps}</span>
+                                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-tighter">Pratiques</span>
+                                    <span className="text-[9px] font-black text-[#1B6B3A]">{course.apps}</span>
                                 </div>
-                            </div>
-
-                            {/* Access Button */}
-                            <div className="mt-auto">
-                                <button 
-                                    onClick={() => router.push(`/dashboard/courses/${course.id}?title=${encodeURIComponent(course.title)}&level=${encodeURIComponent(displayedLevel)}`)}
-                                    className="w-full py-4.5 bg-[#1B6B3A] text-white rounded-xl font-bold text-base shadow-lg shadow-[#1B6B3A]/20 hover:shadow-xl hover:shadow-[#1B6B3A]/30 hover:bg-[#155230] transition-all flex items-center justify-center gap-2 group/btn"
-                                >
-                                    Accéder au cours
-                                    <motion.span 
-                                        initial={{ x: 0 }}
-                                        whileHover={{ x: 3 }}
-                                        className="inline-block"
-                                    >
-                                        →
-                                    </motion.span>
-                                </button>
                             </div>
                         </div>
                     </motion.div>

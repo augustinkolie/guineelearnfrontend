@@ -201,8 +201,8 @@ export const AdminStatsView = ({ user }: AdminStatsViewProps) => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-black text-[#0F2D1E]">Statistiques Détail</h1>
-                    <p className="text-gray-500 font-medium">Analyse approfondie de la performance de la plateforme.</p>
+                    <h1 className="text-2xl font-black text-[#0F2D1E]">Statistiques Détail</h1>
+                    <p className="text-gray-500 font-medium text-xs">Analyse approfondie de la performance de la plateforme.</p>
                 </div>
                 <div className="flex items-center gap-3">
                     <div className="relative bg-white border border-gray-100 rounded-xl flex items-center shadow-sm hover:bg-gray-50 transition-all focus-within:border-[#1B6B3A]/30 focus-within:ring-2 focus-within:ring-[#1B6B3A]/10 overflow-hidden group">
@@ -221,7 +221,7 @@ export const AdminStatsView = ({ user }: AdminStatsViewProps) => {
                     </div>
                     <button 
                         onClick={exportToPDF}
-                        className="flex items-center gap-2 px-6 py-2.5 bg-[#1B6B3A] text-white rounded-xl font-bold hover:bg-[#155230] transition-all shadow-lg shadow-[#1B6B3A]/20"
+                        className="flex items-center gap-2 px-6 py-2.5 bg-[#1B6B3A] text-white rounded-xl font-bold text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-[#1B6B3A]/20 disabled:opacity-50"
                     >
                         <Download className="w-4 h-4" /> Rapport complet
                     </button>

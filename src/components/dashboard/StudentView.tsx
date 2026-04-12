@@ -10,8 +10,13 @@ import {
     Clock, 
     ArrowRight,
     PlayCircle,
-    Activity
+    Activity,
+    Library,
+    Lock,
+    Search,
+    BookOpen
 } from 'lucide-react';
+import { StudentLibraryView } from './StudentLibraryView';
 import { 
     AreaChart, 
     Area, 
@@ -355,6 +360,9 @@ export const StudentView = ({ user, profile }: StudentViewProps) => {
                     </div>
                 </div>
             </div>
+
+            {/* Digital Library Section */}
+            <StudentLibraryView user={user} />
 
             {/* Course Revision History */}
             <div className="space-y-6">

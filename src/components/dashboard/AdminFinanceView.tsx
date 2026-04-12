@@ -108,10 +108,15 @@ export const AdminFinanceView = ({ user }: { user: any }) => {
             {isModalOpen && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                     <div className="absolute inset-0 bg-[#0F2D1E]/40 backdrop-blur-md transition-opacity animate-in fade-in duration-300" onClick={() => setIsModalOpen(false)} />
-                    <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl relative z-10 overflow-hidden animate-in zoom-in-95 duration-300">
-                        <div className="bg-gradient-to-r from-[#1B6B3A] to-[#27AE60] p-6 text-white text-center">
-                            <h3 className="text-xl font-black">Nouvelle Opération</h3>
-                            <p className="text-sm text-white/80">Enregistrez un flux de trésorerie entrant ou sortant.</p>
+                    <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl relative z-10 overflow-hidden animate-in zoom-in-95 duration-300">
+                        <div className="bg-[#0F2D1E] p-6 text-white text-center relative overflow-hidden">
+                            {/* Unique Pattern Overlay */}
+                            <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #1B6B3A 1.5px, transparent 1px)', backgroundSize: '12px 12px' }} />
+                            
+                            <div className="relative z-10">
+                                <h3 className="text-xl font-black">Nouvelle Opération</h3>
+                                <p className="text-sm text-white/80">Enregistrez un flux de trésorerie entrant ou sortant.</p>
+                            </div>
                         </div>
                         
                         <form onSubmit={handleAddTransaction} className="p-8 space-y-5">
@@ -194,11 +199,11 @@ export const AdminFinanceView = ({ user }: { user: any }) => {
                 <div>
                     <div className="flex items-center gap-3 mb-1">
                         <div className="p-2 bg-[#E8F5EE] text-[#1B6B3A] rounded-lg">
-                            <Wallet className="w-6 h-6" />
+                            <Wallet className="w-5 h-5" />
                         </div>
-                        <h1 className="text-3xl font-black text-[#0F2D1E]">Gestion Financière</h1>
+                        <h1 className="text-2xl font-black text-[#0F2D1E]">Gestion Financière</h1>
                     </div>
-                    <p className="text-gray-500 font-medium">Suivi des flux de trésorerie et performance économique.</p>
+                    <p className="text-gray-500 font-medium text-xs">Suivi des flux de trésorerie et performance économique.</p>
                 </div>
 
                 <div className="flex items-center gap-3">
@@ -217,7 +222,7 @@ export const AdminFinanceView = ({ user }: { user: any }) => {
                     </div>
                     <button 
                         onClick={() => setIsModalOpen(true)}
-                        className="flex items-center gap-2 px-6 py-2.5 bg-[#1B6B3A] text-white rounded-xl font-bold hover:bg-[#155230] transition-all shadow-lg shadow-[#1B6B3A]/20"
+                        className="flex items-center gap-2 px-6 py-2.5 bg-[#1B6B3A] text-white rounded-xl font-bold text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-[#1B6B3A]/20 disabled:opacity-50"
                     >
                         <Plus className="w-4 h-4" /> Nouvelle Opération
                     </button>

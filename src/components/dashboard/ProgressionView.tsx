@@ -27,12 +27,15 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const MOCK_LINE_DATA = Array.from({ length: 50 }, (_, i) => ({
-    name: i,
-    score: 40 + Math.sin(i * 0.3) * 20 + Math.random() * 10,
-    future: i > 35 ? (40 + Math.sin(i * 0.3) * 20 + Math.random() * 10) : null,
-    current: i <= 35 ? (40 + Math.sin(i * 0.3) * 20 + Math.random() * 10) : null,
-}));
+const MOCK_LINE_DATA = [
+    { name: 'Lun', current: 52, future: null },
+    { name: 'Mar', current: 68, future: null },
+    { name: 'Mer', current: 45, future: null },
+    { name: 'Jeu', current: 61, future: null },
+    { name: 'Ven', current: 72, future: null },
+    { name: 'Sam', current: 58, future: 58 },
+    { name: 'Dim', current: null, future: 65 },
+];
 
 const COLORS = ['#1B6B3A', '#27AE60', '#F1C40F', '#E67E22', '#E74C3C'];
 
@@ -100,16 +103,28 @@ export const ProgressionView = ({ profile }: { profile: any }) => {
                     
                     <div className="h-[300px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={MOCK_LINE_DATA} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
+                            <AreaChart data={MOCK_LINE_DATA} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
                                 <defs>
                                     <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#1B6B3A" stopOpacity={0.15}/>
                                         <stop offset="95%" stopColor="#1B6B3A" stopOpacity={0}/>
                                     </linearGradient>
                                 </defs>
-                                <CartesianGrid strokeDasharray="3 3" vertical={true} stroke="#E2E8F0" verticalFill={['#fff', '#fcfcfc']} />
-                                <XAxis dataKey="name" hide />
-                                <YAxis hide />
+                                <CartesianGrid strokeDasharray="3 3" vertical={true} stroke="#E2E8F0" />
+                                <XAxis 
+                                    dataKey="name"
+                                    tick={{ fontSize: 10, fontWeight: 700, fill: '#94A3B8' }}
+                                    tickLine={false}
+                                    axisLine={false}
+                                />
+                                <YAxis 
+                                    domain={[30, 80]}
+                                    tickCount={6}
+                                    tick={{ fontSize: 10, fontWeight: 700, fill: '#94A3B8' }}
+                                    tickLine={false}
+                                    axisLine={false}
+                                    tickFormatter={(v) => `${Math.round(v)}%`}
+                                />
                                 <Tooltip 
                                     contentStyle={{ 
                                         borderRadius: '20px', 

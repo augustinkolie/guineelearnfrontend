@@ -17,7 +17,8 @@ import {
     Bell,
     Users,
     PenTool,
-    BarChart3
+    BarChart3,
+    Menu
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { apiCall } from "@/utils/api";
@@ -58,6 +59,7 @@ export const Navbar = () => {
     const [showFeaturesMenu, setShowFeaturesMenu] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userData, setUserData] = useState<any>(null);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     // To prevent immediate closing when moving mouse
     const [menuTimeout, setMenuTimeout] = useState<NodeJS.Timeout | null>(null);
@@ -87,6 +89,7 @@ export const Navbar = () => {
         const handleClickOutside = () => {
             setShowProfileMenu(false);
             setShowFeaturesMenu(false);
+            setIsMobileMenuOpen(false);
         };
         window.addEventListener('click', handleClickOutside);
 
@@ -257,7 +260,10 @@ export const Navbar = () => {
                                                 <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center text-gray-400 group-hover:bg-white group-hover:text-[#1B6B3A] transition-colors">
                                                     <LayoutDashboard className="w-4 h-4" />
                                                 </div>
-                                                Espace Élève
+                                                {userData?.role === 'ADMIN' ? 'Espace Admin' : 
+                                                 userData?.role === 'TEACHER' ? 'Espace Enseignant' : 
+                                                 userData?.role === 'PARENT' ? 'Espace Parent' : 
+                                                 'Espace Élève'}
                                             </Link>
 
                                             <button 
@@ -287,7 +293,99 @@ export const Navbar = () => {
                         )}
                     </div>
                 </div>
+
+                {/* MOBILE MENU TOGGLE */}
+                <div className="md:hidden flex items-center gap-4">
+                    {isLoggedIn && (
+                        <Link 
+                            href="/dashboard"
+                            className={`p-2 rounded-xl border transition-all ${
+                                scrolled ? "bg-[#E8F5EE] border-[#1B6B3A]/10 text-[#1B6B3A]" : "bg-white/10 border-white/20 text-white"
+                            }`}
+                        >
+                            <LayoutDashboard className="w-5 h-5" />
+                        </Link>
+                    )}
+                    <button 
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setIsMobileMenuOpen(!isMobileMenuOpen);
+                        }}
+                        className={`p-2 rounded-xl transition-colors ${
+                            scrolled ? "text-[#0F2D1E] hover:bg-gray-100" : "text-white hover:bg-white/10"
+                        }`}
+                    >
+                        {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                    </button>
+                </div>
             </div>
+
+            {/* MOBILE NAVIGATION OVERLAY */}
+            <AnimatePresence>
+                {isMobileMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="md:hidden bg-white border-t border-gray-100 overflow-hidden shadow-2xl"
+                    >
+                        <div className="p-6 space-y-6">
+                            {isLoggedIn ? (
+                                <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                                    <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-[#1B6B3A] shadow-sm border border-gray-100">
+                                        <User className="w-6 h-6" />
+                                    </div>
+                                    <div className="overflow-hidden">
+                                        <p className="text-sm font-black text-[#0F2D1E] truncate">{userData?.fullName}</p>
+                                        <p className="text-[10px] text-emerald-600 font-bold uppercase tracking-widest">{userData?.role}</p>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="p-2 border-b border-gray-50 pb-4">
+                                    <Link href="/login" className="flex items-center justify-center gap-2 w-full py-4 bg-[#1B6B3A] text-white rounded-2xl font-bold shadow-lg shadow-[#1B6B3A]/20">
+                                        <User className="w-4 h-4" /> Se Connecter
+                                    </Link>
+                                </div>
+                            )}
+
+                            <div className="grid gap-2">
+                                {isLoggedIn && (
+                                    <Link 
+                                        href="/dashboard" 
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className="flex items-center gap-4 p-4 rounded-xl text-sm font-bold text-[#1B6B3A] bg-[#E8F5EE] transition-all"
+                                    >
+                                        <LayoutDashboard className="w-5 h-5" />
+                                        {userData?.role === 'ADMIN' ? 'Espace Administrateur' : 
+                                         userData?.role === 'TEACHER' ? 'Espace Enseignant' : 
+                                         userData?.role === 'PARENT' ? 'Espace Parent' : 
+                                         'Mon Espace Élève'}
+                                    </Link>
+                                )}
+                                <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-4 p-4 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-50 transition-all">
+                                    <Users className="w-5 h-5 opacity-40" /> À Propos
+                                </Link>
+                                <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-4 p-4 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-50 transition-all">
+                                    <Bell className="w-5 h-5 opacity-40" /> Contact
+                                </Link>
+                            </div>
+
+                            {isLoggedIn && (
+                                <button 
+                                    onClick={handleLogout}
+                                    className="flex items-center gap-4 w-full p-4 rounded-xl text-sm font-bold text-red-500 hover:bg-red-50 transition-all border border-red-100/50"
+                                >
+                                    <LogOut className="w-5 h-5" /> Déconnexion
+                                </button>
+                            )}
+
+                            <p className="text-[10px] text-gray-400 text-center font-bold uppercase tracking-[0.2em] pt-4">
+                                GuinéeLearn • Excellence Éducative
+                            </p>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </nav>
     );
 };

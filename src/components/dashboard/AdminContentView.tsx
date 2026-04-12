@@ -184,14 +184,14 @@ export const AdminContentView = ({ user }: AdminContentViewProps) => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-black text-[#0F2D1E]">Contenu & Cours</h1>
-                    <p className="text-gray-500 font-medium">Gérez le catalogue des ressources éducatives.</p>
+                    <h1 className="text-2xl font-black text-[#0F2D1E]">Contenu & Cours</h1>
+                    <p className="text-gray-500 font-medium text-xs">Gérez le catalogue des ressources éducatives.</p>
                 </div>
                 <button 
                     onClick={() => setIsCreateModalOpen(true)}
-                    className="flex items-center gap-2 px-6 py-3 bg-[#1B6B3A] text-white rounded-xl font-bold hover:bg-[#155230] transition-all shadow-lg shadow-[#1B6B3A]/20"
+                    className="flex items-center gap-2 px-6 py-2.5 bg-[#1B6B3A] text-white rounded-xl font-bold text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-[#1B6B3A]/20 disabled:opacity-50"
                 >
-                    <Plus className="w-5 h-5" /> Nouveau contenu
+                    <Plus className="w-4 h-4" /> Nouveau contenu
                 </button>
             </div>
 

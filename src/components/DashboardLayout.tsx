@@ -21,7 +21,10 @@ import {
     Activity,
     BarChart3,
     TrendingUp,
-    Banknote
+    Banknote,
+    LifeBuoy,
+    Handshake,
+    Library
 } from 'lucide-react';
 import { Logo } from './Logo';
 
@@ -60,9 +63,13 @@ export const DashboardLayout = ({ children, user }: { children: React.ReactNode,
             { icon: BarChart3, label: 'Statistiques', href: '/dashboard/stats' },
             { icon: Banknote, label: 'Finance', href: '/dashboard/finance' },
             { icon: Activity, label: 'Temps réel', href: '/dashboard/realtime' },
+            { icon: Settings, label: 'Configuration', href: '/dashboard/admin-system' },
+            { icon: LifeBuoy, label: 'Support', href: '/dashboard/support' },
+            { icon: Handshake, label: 'Partenariats', href: '/dashboard/partners' },
         ] : [
             { icon: BookOpen, label: 'Mes Cours', href: '/dashboard/courses' },
             { icon: CheckCircle, label: 'Quiz', href: '/dashboard/quiz' },
+            { icon: Library, label: 'Bibliothèque', href: '/dashboard/library' },
             { icon: TrendingUp, label: 'Progression', href: '/dashboard/progression' },
             { icon: FileText, label: 'Mes Ressources', href: '/dashboard/resources' },
             { icon: Calendar, label: 'Calendrier', href: '/dashboard/calendar' },

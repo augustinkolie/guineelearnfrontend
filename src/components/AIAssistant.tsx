@@ -116,31 +116,35 @@ export const AIAssistant = () => {
                             className="mb-4 w-[350px] sm:w-[400px] h-[500px] bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden shadow-[#1B6B3A]/10"
                         >
                             {/* Header */}
-                            <div className="bg-linear-to-r from-[#1B6B3A] to-[#0F2D1E] p-4 text-white cursor-move active:cursor-grabbing">
-                                <div className="flex items-center justify-between">
+                            <div className="bg-[#0F2D1E] p-5 text-white cursor-move active:cursor-grabbing relative overflow-hidden">
+                                {/* Unique Pattern Overlay */}
+                                <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #1B6B3A 1.5px, transparent 1px)', backgroundSize: '12px 12px' }} />
+                                
+                                <div className="flex items-center justify-between relative z-10">
                                     <div className="flex items-center gap-3">
                                         <div className="relative">
-                                            <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-md">
-                                                <Bot className="w-6 h-6 text-emerald-400" />
+                                            <div className="w-10 h-10 bg-emerald-500/10 rounded-xl flex items-center justify-center border border-emerald-500/20">
+                                                <Bot className="w-6 h-6 text-emerald-500" />
                                             </div>
-                                            <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full animate-pulse" />
+                                            <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-[#0F2D1E] rounded-full" />
                                         </div>
                                         <div>
-                                            <h3 className="font-black text-sm tracking-tight uppercase">Assistant GuinéeLearn</h3>
-                                            <p className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest opacity-80">En ligne • Beta</p>
+                                            <h3 className="font-black text-sm tracking-tight uppercase leading-none">Assistant GuinéeLearn</h3>
+                                            <div className="flex items-center gap-2 mt-1.5">
+                                                <span className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
+                                                <p className="text-[9px] text-emerald-500 font-extrabold uppercase tracking-widest leading-none">En ligne • Beta</p>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-1">
-                                        <button 
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                setIsOpen(false);
-                                            }} 
-                                            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-                                        >
-                                            <Minus className="w-4 h-4" />
-                                        </button>
-                                    </div>
+                                    <button 
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setIsOpen(false);
+                                        }} 
+                                        className="p-2 hover:bg-white/10 rounded-xl transition-all text-gray-400 hover:text-white"
+                                    >
+                                        <Minus className="w-5 h-5" />
+                                    </button>
                                 </div>
                             </div>
 

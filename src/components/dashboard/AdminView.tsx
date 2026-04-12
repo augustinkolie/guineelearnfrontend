@@ -1,8 +1,6 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import domtoimage from 'dom-to-image-more';
-import { jsPDF } from 'jspdf';
 import Link from 'next/link';
 import { 
     Users, 
@@ -95,6 +93,11 @@ export const AdminView = ({ user, profile }: AdminViewProps) => {
         if (!exportRef.current) return;
         try {
             setIsExporting(true);
+            
+            // Dynamic imports to prevent SSR errors
+            const domtoimage = (await import('dom-to-image-more')).default;
+            const { jsPDF } = await import('jspdf');
+
             const node = exportRef.current;
             const imgData = await domtoimage.toJpeg(node, { 
                 quality: 0.95, 
@@ -156,8 +159,8 @@ export const AdminView = ({ user, profile }: AdminViewProps) => {
             {/* Header & Stats */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-black text-[#0F2D1E]">Administration</h1>
-                    <p className="text-gray-500 font-medium">Surveillance globale de la plateforme GuinéeLearn.</p>
+                    <h1 className="text-2xl font-black text-[#0F2D1E]">Administration</h1>
+                    <p className="text-gray-500 font-medium text-xs">Surveillance globale de la plateforme GuinéeLearn.</p>
                 </div>
                 <div className="flex items-center gap-3">
                     <button 
