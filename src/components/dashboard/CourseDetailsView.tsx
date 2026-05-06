@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
     Flame, 
@@ -13,9 +13,18 @@ import {
     Star,
     Award,
     Zap,
-    BookOpen
+    BookOpen,
+    Sparkles,
+    X,
+    Loader2
 } from 'lucide-react';
 import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import remarkGfm from 'remark-gfm';
+import rehypeKatex from 'rehype-katex';
+import 'katex/dist/katex.min.css';
+import { BASE_URL, logActivity } from '@/utils/api';
 
 interface CourseDetailsProps {
     courseId: string;
@@ -427,7 +436,6 @@ const getMockChapters = (title: string, level: string) => {
         }
 
         // --- CHIMIE ---
-        // --- CHIMIE ---
         if (titleLower.includes("acide") || titleLower.includes("base") || titleLower.includes("ph") || titleLower.includes("ionique") || titleLower.includes("dissociation")) {
             return [{
                 id: `l1_${chapId}`, title: "Acides et Bases",
@@ -726,6 +734,66 @@ export const CourseDetailsView = ({ courseId, courseTitle, courseLevel, profile 
     const [activeChapterId, setActiveChapterId] = useState(chaptersData[0]?.id || 'c1');
     const activeChapter = chaptersData.find(c => c.id === activeChapterId) || chaptersData[0];
 
+    const [isGenerating, setIsGenerating] = useState(false);
+    const [aiContent, setAiContent] = useState<string | null>(null);
+    const [isContentModalOpen, setIsContentModalOpen] = useState(false);
+
+    // Load persisted content when chapter changes
+    useEffect(() => {
+        const cacheKey = `ai_content_${courseId}_${activeChapterId}`;
+        const cachedContent = localStorage.getItem(cacheKey);
+        if (cachedContent) {
+            setAiContent(cachedContent);
+        } else {
+            setAiContent(null);
+        }
+    }, [activeChapterId, courseId]);
+
+    const handleGenerateContent = async (chapterTitle: string) => {
+        setIsGenerating(true);
+        setIsContentModalOpen(false); 
+        // We don't clear immediately to allow "re-generation" visual transition
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`${BASE_URL}/api/quiz/generate-course`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    subject: courseTitle,
+                    chapter: chapterTitle,
+                    level: courseLevel
+                })
+            });
+
+            if (!response.ok) throw new Error("Erreur lors de la génération");
+            const data = await response.json();
+            
+            // Enregistrer l'activité
+            logActivity({
+                subject: courseTitle,
+                lesson: chapterTitle,
+                status: 'En cours',
+                progress: 50
+            });
+
+            // Persist the generated content
+            const cacheKey = `ai_content_${courseId}_${activeChapterId}`;
+            localStorage.setItem(cacheKey, data.content);
+            
+            setAiContent(data.content);
+            // Scroll to the "About this Chapter" section where content is rendered
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } catch (error) {
+            console.error(error);
+            setAiContent("Désolé, une erreur est survenue lors de la génération du cours par l'IA.");
+        } finally {
+            setIsGenerating(false);
+        }
+    };
+
     return (
         <div className="bg-white min-h-[calc(100vh-4rem)]">
             {/* Top Banner (Streaks & Level) */}
@@ -780,7 +848,10 @@ export const CourseDetailsView = ({ courseId, courseTitle, courseLevel, profile 
                         {chaptersData.map((chapter, index) => (
                             <button
                                 key={chapter.id}
-                                onClick={() => setActiveChapterId(chapter.id)}
+                                onClick={() => {
+                                    setActiveChapterId(chapter.id);
+                                    setIsContentModalOpen(false);
+                                }}
                                 className={`w-full text-left px-5 py-4 border-l-4 transition-colors ${
                                     activeChapterId === chapter.id 
                                     ? 'border-[#1B6B3A] bg-green-50/60 text-[#155230]' 
@@ -798,7 +869,7 @@ export const CourseDetailsView = ({ courseId, courseTitle, courseLevel, profile 
                     </div>
                     
                     <div className="p-4 mt-4 mb-8">
-                        <div className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                        <div className="border border-gray-200 rounded-lg p-4 bg-white  hover: transition-shadow cursor-pointer">
                             <div className="flex items-center gap-2 font-bold text-gray-800 mb-2 text-sm uppercase tracking-wider">
                                 <BookOpen className="w-4 h-4" /> DÉFI DE COURS
                             </div>
@@ -840,7 +911,7 @@ export const CourseDetailsView = ({ courseId, courseTitle, courseLevel, profile 
                         <div className="flex items-center gap-2"><div className="w-5 h-5 rounded bg-[#A68AE0]" /> Compétent</div>
                         <div className="flex items-center gap-2"><div className="w-5 h-5 rounded border-2 border-orange-400 bg-orange-100" /> Familier</div>
                         <div className="flex items-center gap-2"><div className="w-5 h-5 rounded border border-orange-500" /> Tenté</div>
-                        <div className="flex items-center gap-2"><div className="w-5 h-5 rounded border border-gray-300" /> Pas commencé</div>
+                        <div className="flex items-center gap-2"><div className="w-5 h-5 rounded border border-gray-200" /> Pas commencé</div>
                         <div className="flex items-center gap-2"><div className="w-5 h-5 flex flex-center"><Zap className="w-4 h-4 text-gray-400 fill-gray-400" /></div> Quiz</div>
                         <div className="flex items-center gap-2"><div className="w-5 h-5 flex flex-center"><Star className="w-4 h-4 text-gray-400 fill-gray-400" /></div> Test</div>
                     </div>
@@ -849,27 +920,86 @@ export const CourseDetailsView = ({ courseId, courseTitle, courseLevel, profile 
                     <div className="flex flex-wrap gap-1 mb-10 pb-6 border-b border-gray-200">
                         {Array.from({length: 25}).map((_, i) => (
                             <div key={i} className="flex items-center">
-                                <div className={`w-7 h-7 rounded-sm border ${i===0?'bg-[#6A5E9D] border-[#6A5E9D]': i===1?'bg-[#A68AE0] border-[#A68AE0]': i===2?'border-2 border-orange-400 bg-orange-100' : 'border-gray-300'} flex items-center justify-center`}>
+                                <div className={`w-7 h-7 rounded-sm border ${i===0?'bg-[#6A5E9D] border-[#6A5E9D]': i===1?'bg-[#A68AE0] border-[#A68AE0]': i===2?'border-2 border-orange-400 bg-orange-100' : 'border-gray-200'} flex items-center justify-center`}>
                                     {i===0 && <Award className="w-4 h-4 text-white" />}
                                 </div>
                                 {(i===8 || i===15 || i===22) && <Zap className="w-4 h-4 text-gray-400 fill-gray-400 mx-1.5" />}
                             </div>
                         ))}
-                        <div className="w-7 h-7 rounded-sm border border-gray-300 ml-1" />
+                        <div className="w-7 h-7 rounded-sm border border-gray-200 ml-1" />
                         <Star className="w-4 h-4 text-gray-400 fill-gray-400 mx-1.5 self-center" />
                     </div>
 
                     {/* About this Chapter */}
-                    <div className="border border-gray-200 rounded-xl p-6 md:p-8 mb-8 shadow-sm">
-                        <h3 className="text-xl font-bold text-gray-900 mb-3">À propos de ce chapitre</h3>
-                        <p className="text-sm text-gray-700 leading-relaxed max-w-4xl">
-                            {activeChapter.description}
-                        </p>
+                    <div className="border border-gray-200 rounded-lg p-6 md:p-8 mb-8 relative overflow-hidden group">
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-xl font-bold text-gray-900">À propos de ce chapitre</h3>
+                            <button 
+                                onClick={() => handleGenerateContent(activeChapter.title)}
+                                disabled={isGenerating}
+                                style={{
+                                    backgroundColor: isGenerating ? '#9ca3af' : '#1B6B3A',
+                                    color: '#ffffff',
+                                    padding: '10px 24px',
+                                    borderRadius: '8px',
+                                    fontWeight: 'bold',
+                                    fontSize: '14px',
+                                    border: 'none',
+                                    cursor: isGenerating ? 'not-allowed' : 'pointer',
+                                    boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: '8px'
+                                }}
+                            >
+                                {isGenerating ? (
+                                    <>
+                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                        <span>Génération...</span>
+                                    </>
+                                ) : (
+                                    'Générer le cours complet'
+                                )}
+                            </button>
+                        </div>
+
+                        {isGenerating ? (
+                             <div className="py-12 flex flex-col items-center justify-center space-y-6 animate-in fade-in duration-500">
+                                <div className="relative flex items-center justify-center">
+                                    <div className="w-20 h-20 border-4 border-gray-100 border-t-[#1B6B3A] rounded-full animate-spin"></div>
+                                    <div className="absolute">
+                                        <img 
+                                            src="/images/logo_icon_pro_1775601897268.png" 
+                                            alt="Logo" 
+                                            className="w-10 h-10 object-contain animate-pulse"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="text-center">
+                                    <p className="text-lg font-black text-[#1B6B3A] mb-1">Préparation de votre contenu d'excellence...</p>
+                                    <p className="text-xs text-gray-500 font-bold uppercase tracking-widest animate-pulse">Analyse des concepts • Structuration pédagogique</p>
+                                </div>
+                            </div>
+                        ) : aiContent && activeChapterId ? (
+                            <div className="prose prose-emerald max-w-none prose-headings:font-black prose-headings:text-[#0F2D1E] prose-p:text-gray-700 prose-p:leading-relaxed prose-li:text-gray-700 border-t border-gray-100 pt-6 mt-2">
+                                <ReactMarkdown
+                                    remarkPlugins={[remarkMath, remarkGfm]}
+                                    rehypePlugins={[rehypeKatex]}
+                                >
+                                    {aiContent}
+                                </ReactMarkdown>
+                            </div>
+                        ) : (
+                            <p className="text-sm text-gray-700 leading-relaxed max-w-4xl">
+                                {activeChapter.description}
+                            </p>
+                        )}
                     </div>
 
                     {/* Lessons & Practices Block */}
                     {activeChapter.lessons.map((lesson) => (
-                        <div key={lesson.id} className="border border-gray-200 rounded-xl mb-8 shadow-sm overflow-hidden">
+                        <div key={lesson.id} className="border border-gray-200 rounded-lg mb-8  overflow-hidden">
                             {/* Block Header */}
                             <div className="px-6 py-5 bg-white border-b border-gray-200">
                                 <h3 className="text-2xl font-bold text-gray-900">{lesson.title}</h3>
@@ -884,7 +1014,10 @@ export const CourseDetailsView = ({ courseId, courseTitle, courseLevel, profile 
                                     <ul className="space-y-1">
                                         {lesson.learnings.map((lr) => (
                                             <li key={lr.id}>
-                                                <button className="w-full text-left flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors group">
+                                                 <button 
+                                                    onClick={() => handleGenerateContent(lr.title)}
+                                                    className="w-full text-left flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors group"
+                                                >
                                                     <div className="mt-0.5 text-[#1B6B3A] flex-shrink-0">
                                                         {lr.type === 'video' ? (
                                                             lr.status === 'completed' ? <CheckSquare className="w-5 h-5 text-[#1B6B3A]" /> : 
@@ -908,7 +1041,7 @@ export const CourseDetailsView = ({ courseId, courseTitle, courseLevel, profile 
                                     <h4 className="text-sm font-bold text-gray-500 mb-4 px-2">S'entraîner</h4>
                                     <div className="space-y-4">
                                         {lesson.practices.map((p, pIdx) => (
-                                            <div key={p.id} className={`flex items-center justify-between p-4 rounded-lg border ${p.active ? 'border-gray-200 shadow-sm bg-white' : 'border-dashed border-gray-200 bg-gray-50/50'}`}>
+                                            <div key={p.id} className={`flex items-center justify-between p-4 rounded-lg border ${p.active ? 'border-gray-200  bg-white' : 'border-dashed border-gray-200 bg-gray-50/50'}`}>
                                                 <div className="flex-1 pr-4">
                                                     {p.active && (
                                                         <div className="text-xs font-bold text-[#1B6B3A] mb-1">Prochaine étape pour vous :</div>
@@ -919,18 +1052,25 @@ export const CourseDetailsView = ({ courseId, courseTitle, courseLevel, profile 
                                                     <p className="text-xs text-gray-500 mt-1">
                                                         {p.subtitle}
                                                     </p>
-                                                    <div className="mt-3">
-                                                        <button className={`px-4 py-1.5 rounded text-sm font-bold transition-all ${
-                                                            p.active 
-                                                            ? 'bg-[#1B6B3A] hover:bg-[#155230] text-white shadow-sm' 
-                                                            : 'border border-gray-300 text-[#1B6B3A] hover:bg-gray-50'
-                                                        }`}>
-                                                            {p.active ? 'Départ' : "S'entraîner"}
+                                                    <div className="mt-3 flex items-center gap-4">
+                                                        <button 
+                                                            onClick={() => handleGenerateContent(p.title)}
+                                                            className={`px-4 py-1.5 rounded text-sm font-bold transition-all ${
+                                                                p.active 
+                                                                ? 'bg-[#1B6B3A] hover:bg-[#155230] text-white shadow-md shadow-emerald-100 hover:-translate-y-0.5' 
+                                                                : 'border border-gray-200 text-[#1B6B3A] hover:bg-gray-50'
+                                                            }`}
+                                                        >
+                                                            {p.active ? 'Démarrer le cours' : "S'entraîner"}
                                                         </button>
+                                                        <div className="flex items-center gap-1.5 text-[10px] font-black text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-100 uppercase tracking-tighter">
+                                                            <Star className="w-2.5 h-2.5 fill-amber-500" />
+                                                            {p.pointsPossible} pts
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 
-                                                <div className="flex flex-col items-center justify-center w-20 flex-shrink-0 border-l border-gray-100 pl-4">
+                                                <div className="flex flex-col items-center justify-center w-20 flex-shrink-0 border-l border-gray-200 pl-4">
                                                     <div className="font-bold text-gray-500 text-xs text-center">Pas commencé</div>
                                                     {/* Fake graph or dots could go here */}
                                                 </div>
@@ -951,6 +1091,7 @@ export const CourseDetailsView = ({ courseId, courseTitle, courseLevel, profile 
                     
                 </div>
             </div>
+
         </div>
     );
 };

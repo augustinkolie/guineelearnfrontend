@@ -46,9 +46,9 @@ const detailedActivityData = [
 ];
 
 const userDistribution = [
-    { name: 'Élèves', value: 2400, color: '#1B6B3A' },
-    { name: 'Professeurs', value: 300, color: '#27AE60' },
-    { name: 'Parents', value: 142, color: '#0F2D1E' },
+    { name: 'Élèves', value: 2400, color: '#F97316' },
+    { name: 'Professeurs', value: 300, color: '#EF4444' },
+    { name: 'Parents', value: 142, color: '#8B5CF6' },
 ];
 
 const subjectPopularity = [
@@ -63,7 +63,7 @@ const subjectPopularity = [
 const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
         return (
-            <div className="bg-white p-4 rounded-xl shadow-2xl border border-gray-100 animate-in zoom-in-95 duration-200">
+            <div className="bg-white p-4 rounded-lg  border border-gray-200 animate-in zoom-in-95 duration-200">
                 <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3">{label}</p>
                 <div className="space-y-2">
                     {payload.map((entry: any, index: number) => (
@@ -83,9 +83,9 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 const StatOverviewCard = ({ title, value, icon: Icon, trend, trendColor }: any) => (
-    <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-center justify-between group hover:border-[#1B6B3A]/20 transition-all">
+    <div className="bg-white p-5 rounded-lg border border-gray-200  flex items-center justify-between group hover:border-[#1B6B3A]/20 ">
         <div className="flex items-center gap-4">
-            <div className="w-11 h-11 rounded-xl bg-gray-50 flex items-center justify-center text-gray-400 group-hover:bg-[#E8F5EE] group-hover:text-[#1B6B3A] transition-colors">
+            <div className="w-11 h-11 rounded-lg bg-gray-50 flex items-center justify-center text-gray-400 group-hover:bg-[#E8F5EE] group-hover:text-[#1B6B3A] transition-colors">
                 <Icon className="w-5 h-5" />
             </div>
             <div>
@@ -100,6 +100,26 @@ const StatOverviewCard = ({ title, value, icon: Icon, trend, trendColor }: any) 
         </div>
     </div>
 );
+
+const RADIAN = Math.PI / 180;
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }: any) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    return (
+        <text 
+            x={x} 
+            y={y} 
+            fill="white" 
+            textAnchor="middle" 
+            dominantBaseline="central"
+            className="text-[10px] font-black"
+        >
+            {`${(percent * 100).toFixed(0)}%`}
+        </text>
+    );
+};
 
 export const AdminStatsView = ({ user }: AdminStatsViewProps) => {
     const [timeRange, setTimeRange] = useState('12m');
@@ -130,7 +150,7 @@ export const AdminStatsView = ({ user }: AdminStatsViewProps) => {
         <>
             {/* --- LAYOUT D'IMPRESSION (NATIVE PDF) --- */}
             <div className="hidden print:block w-[185mm] mx-auto bg-white font-sans text-black py-8 pr-4">
-                <div className="border-b-4 border-[#1B6B3A] pb-6 mb-8 flex justify-between items-end">
+                <div className=" border-[#1B6B3A] pb-6 mb-8 flex justify-between items-end">
                     <div>
                         <h1 className="text-4xl font-black text-[#0F2D1E] tracking-tight uppercase">Rapport de performance</h1>
                         <h2 className="text-xl font-bold text-[#1B6B3A] mt-2">PLATEFORME GUINÉELEARN</h2>
@@ -143,7 +163,7 @@ export const AdminStatsView = ({ user }: AdminStatsViewProps) => {
 
                 <div className="mb-10">
                     <h3 className="text-sm font-black uppercase text-gray-400 tracking-widest mb-3">Interprétation des Données</h3>
-                    <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200">
+                    <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
                         <p className="text-[#0F2D1E] leading-relaxed text-lg font-medium">
                             L'analyse approfondie des statistiques récentes démontre une excellente acquisition. 
                             Avec <strong className="text-[#1B6B3A] font-black">{currentStats.visits} visites</strong> globales enregistrées, le niveau d'engagement sur GuinéeLearn révèle une adhésion forte de l'écosystème éducatif. 
@@ -205,7 +225,7 @@ export const AdminStatsView = ({ user }: AdminStatsViewProps) => {
                     <p className="text-gray-500 font-medium text-xs">Analyse approfondie de la performance de la plateforme.</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <div className="relative bg-white border border-gray-100 rounded-xl flex items-center shadow-sm hover:bg-gray-50 transition-all focus-within:border-[#1B6B3A]/30 focus-within:ring-2 focus-within:ring-[#1B6B3A]/10 overflow-hidden group">
+                    <div className="relative bg-white border border-gray-200 rounded-lg flex items-center  hover:bg-gray-50  focus-within:border-[#1B6B3A]/30 focus-within:ring-2 focus-within:ring-[#1B6B3A]/10 overflow-hidden group">
                         <Calendar className="w-4 h-4 text-[#1B6B3A] ml-4 pointer-events-none absolute left-0" />
                         <select 
                             value={timeRange}
@@ -221,7 +241,7 @@ export const AdminStatsView = ({ user }: AdminStatsViewProps) => {
                     </div>
                     <button 
                         onClick={exportToPDF}
-                        className="flex items-center gap-2 px-6 py-2.5 bg-[#1B6B3A] text-white rounded-xl font-bold text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-[#1B6B3A]/20 disabled:opacity-50"
+                        className="flex items-center gap-2 px-6 py-2.5 bg-[#1B6B3A] text-white rounded-lg font-bold text-sm  active:scale-[0.98]   shadow-[#1B6B3A]/20 disabled:opacity-50"
                     >
                         <Download className="w-4 h-4" /> Rapport complet
                     </button>
@@ -238,9 +258,9 @@ export const AdminStatsView = ({ user }: AdminStatsViewProps) => {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Engagement Area Chart */}
-                <div className="lg:col-span-2 bg-white p-8 rounded-2xl border border-gray-100 shadow-sm space-y-6">
-                    <div className="flex items-center justify-between">
-                        <h3 className="text-xl font-bold text-[#0F2D1E]">Engagement par Segment</h3>
+                <div className="lg:col-span-2 bg-white p-5 md:p-8 rounded-lg border border-gray-200 space-y-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <h3 className="text-lg md:text-xl font-bold text-[#0F2D1E]">Engagement par Segment</h3>
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-[#1B6B3A]" /><span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Élèves</span></div>
                             <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-[#E5E7EB]" /><span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Global</span></div>
@@ -266,60 +286,68 @@ export const AdminStatsView = ({ user }: AdminStatsViewProps) => {
                     </div>
                 </div>
 
-                {/* User Distribution Pie */}
-                <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm space-y-8">
+                <div className="bg-white p-5 md:p-8 rounded-lg border border-gray-200 space-y-8">
                     <div className="flex items-center justify-between">
-                        <h3 className="text-xl font-bold text-[#0F2D1E]">Démographie</h3>
+                        <h3 className="text-lg md:text-xl font-bold text-[#0F2D1E]">Démographie</h3>
                         <Users2 className="w-5 h-5 text-gray-400" />
                     </div>
-                    <div className="h-64 w-full relative">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <PieChart>
-                                <Pie
-                                    data={userDistribution}
-                                    innerRadius={70}
-                                    outerRadius={90}
-                                    paddingAngle={5}
-                                    dataKey="value"
-                                    stroke="none"
-                                >
-                                    {userDistribution.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={entry.color} />
-                                    ))}
-                                </Pie>
-                                <Tooltip content={<CustomTooltip />} />
-                            </PieChart>
-                        </ResponsiveContainer>
-                        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                            <span className="text-3xl font-black text-[#0F2D1E]">2.8k</span>
-                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Actifs</span>
-                        </div>
-                    </div>
-                    <div className="space-y-3">
-                        {userDistribution.map((item, i) => (
-                            <div key={i} className="flex items-center justify-between group">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
-                                    <span className="text-sm font-bold text-gray-500">{item.name}</span>
-                                </div>
-                                <span className="text-sm font-black text-[#0F2D1E] group-hover:text-[#1B6B3A] transition-colors">{Math.round((item.value / 2842) * 100)}%</span>
+                    
+                    <div className="space-y-4">
+                        <div className="h-64 w-full relative">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <PieChart>
+                                    <Pie
+                                        data={userDistribution}
+                                        startAngle={210}
+                                        endAngle={-30}
+                                        innerRadius={95}
+                                        outerRadius={125}
+                                        paddingAngle={10}
+                                        cornerRadius={12}
+                                        dataKey="value"
+                                        stroke="none"
+                                        labelLine={false}
+                                        label={renderCustomizedLabel}
+                                    >
+                                        {userDistribution.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={entry.color} />
+                                        ))}
+                                    </Pie>
+                                    <Tooltip content={<CustomTooltip />} />
+                                </PieChart>
+                            </ResponsiveContainer>
+                            <div className="absolute inset-0 flex flex-col items-center justify-end pb-12 pointer-events-none">
+                                <span className="text-5xl font-black text-[#0F2D1E] tracking-tighter">2.8k</span>
+                                <span className="text-xs font-bold text-gray-400 uppercase tracking-[0.2em] mt-1">Actifs</span>
                             </div>
-                        ))}
+                        </div>
+
+                        <div className="flex flex-wrap justify-center gap-6 pt-2">
+                            {userDistribution.map((item, i) => (
+                                <div key={i} className="flex items-center gap-2 group cursor-default">
+                                    <div className="w-4 h-4 rounded-md shadow-sm" style={{ backgroundColor: item.color }} />
+                                    <div className="flex items-baseline gap-1.5">
+                                        <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">{item.name}</span>
+                                        <span className="text-sm font-black text-[#0F2D1E] group-hover:text-[#1B6B3A]">{Math.round((item.value / 2842) * 100)}%</span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
 
             {/* Popular Subjects Bar Chart */}
-            <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm space-y-6">
-                <div className="flex items-center justify-between">
-                    <h3 className="text-xl font-bold text-[#0F2D1E]">Popularité des Matières</h3>
-                    <div className="text-xs font-black text-[#1B6B3A] uppercase tracking-widest bg-[#E8F5EE] px-3 py-1 rounded-lg">Performance Top 6</div>
+            <div className="bg-white p-5 md:p-8 rounded-lg border border-gray-200 space-y-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <h3 className="text-lg md:text-xl font-bold text-[#0F2D1E]">Popularité des Matières</h3>
+                    <div className="text-[10px] md:text-xs font-black text-[#1B6B3A] uppercase tracking-widest bg-[#E8F5EE] px-3 py-1 rounded-lg w-fit">Performance Top 6</div>
                 </div>
                 <div className="h-72 w-full">
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={subjectPopularity}>
                             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                            <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94A3B8', fontSize: 11, fontWeight: 700}} dy={10} />
+                            <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94A3B8', fontSize: 10, fontWeight: 700}} dy={10} interval={0} angle={-45} textAnchor="end" height={60} />
                             <YAxis axisLine={false} tickLine={false} tick={{fill: '#94A3B8', fontSize: 11, fontWeight: 700}} />
                             <Tooltip content={<CustomTooltip />} cursor={{fill: '#f8fafc'}} />
                             <Bar dataKey="count" name="Engagement" radius={[6, 6, 0, 0]} barSize={40}>

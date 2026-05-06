@@ -33,7 +33,7 @@ const performanceData = [
 const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
         return (
-            <div className="bg-white p-4 rounded-xl shadow-2xl border border-gray-100 animate-in zoom-in-95 duration-200">
+            <div className="bg-white p-4 rounded-lg  border border-gray-200 animate-in zoom-in-95 duration-200">
                 <p className="text-sm font-black text-[#0F2D1E] mb-2">{label}</p>
                 <div className="space-y-1.5">
                     {payload.map((entry: any, index: number) => (
@@ -55,7 +55,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 const COLORS = ['#1B6B3A', '#27AE60', '#34D399', '#059669', '#10B981'];
 
 const StatCard = ({ icon: Icon, label, value, trend }: any) => (
-    <div className="bg-white p-6 rounded-xl border border-gray-100 flex items-center justify-between group hover:border-[#1B6B3A]/20 transition-all shadow-sm">
+    <div className="bg-white p-6 rounded-lg border border-gray-200 flex items-center justify-between group hover:border-[#1B6B3A]/20  ">
         <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-lg bg-[#E8F5EE] flex items-center justify-center text-[#1B6B3A] transition-transform group-hover:scale-110">
                 <Icon className="w-6 h-6" />
@@ -78,10 +78,10 @@ export const TeacherView = ({ user, profile }: any) => {
         <div className="space-y-8 animate-in fade-in duration-700">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-3xl font-black text-[#0F2D1E]">Espace Enseignant 👨‍🏫</h2>
+                    <h2 className="text-3xl font-black text-[#0F2D1E]">Espace Enseignant</h2>
                     <p className="text-gray-500 font-medium">Gérez vos classes et vos ressources pédagogiques.</p>
                 </div>
-                <button className="flex items-center gap-2 bg-[#1B6B3A] text-white px-6 py-3 rounded-xl font-bold shadow-lg shadow-[#1B6B3A]/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                <button className="flex items-center gap-2 bg-[#1B6B3A] text-white px-6 py-3 rounded-lg font-bold  shadow-[#1B6B3A]/20  active:scale-[0.98] ">
                     <FileUp className="w-5 h-5" />
                     Ajouter une ressource
                 </button>
@@ -94,7 +94,7 @@ export const TeacherView = ({ user, profile }: any) => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2 bg-white p-8 rounded-xl border border-gray-100 shadow-sm space-y-6">
+                <div className="lg:col-span-2 bg-white p-8 rounded-lg border border-gray-200  space-y-6">
                     <div className="flex items-center justify-between">
                         <h3 className="text-xl font-bold text-[#0F2D1E]">Performance par Classe</h3>
                         <div className="flex items-center gap-4">
@@ -128,7 +128,7 @@ export const TeacherView = ({ user, profile }: any) => {
                 </div>
 
                 <div className="space-y-6">
-                    <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm space-y-4">
+                    <div className="bg-white p-6 rounded-lg border border-gray-200  space-y-4">
                         <h3 className="text-sm font-bold text-[#0F2D1E]">Soumission des Devoirs</h3>
                         <div className="h-44 w-full relative">
                             <ResponsiveContainer width="100%" height="100%">
@@ -159,8 +159,8 @@ export const TeacherView = ({ user, profile }: any) => {
                         </div>
                     </div>
 
-                    <div className="bg-[#E8F5EE]/50 border-2 border-dashed border-[#1B6B3A]/20 rounded-xl p-6 flex flex-col items-center justify-center text-center space-y-3 h-auto">
-                        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-[#1B6B3A] shadow-sm">
+                    <div className="bg-[#E8F5EE]/50 border-2 border-dashed border-[#1B6B3A]/20 rounded-lg p-6 flex flex-col items-center justify-center text-center space-y-3 h-auto">
+                        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-[#1B6B3A] ">
                             <GraduationCap className="w-8 h-8" />
                         </div>
                         <div>

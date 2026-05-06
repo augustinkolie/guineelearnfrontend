@@ -18,13 +18,6 @@ export default function BookPage() {
     useEffect(() => {
         const checkAccessAndLoad = async () => {
             const slug = params.slug as string;
-            const foundBook = allBooks.find(b => b.slug === slug);
-
-            if (!foundBook) {
-                router.push('/dashboard/library');
-                return;
-            }
-
             const token = localStorage.getItem('token');
             if (!token) {
                 router.push('/login');
@@ -32,22 +25,60 @@ export default function BookPage() {
             }
 
             try {
-                const response = await apiCall('/user/profile', {
+                // Fetch user profile first
+                const profileResponse = await apiCall('/user/profile', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
-                const userData = response.user;
+                const userData = profileResponse.user;
                 setUser(userData);
 
-                // Access Control
-                if (foundBook.isPremium && userData.plan !== 'PREMIUM') {
-                    // Redirect free users away from premium books
-                    router.push('/dashboard/library');
-                    return;
-                }
+                // 1. Try to fetch from API as a dynamic resource FIRST
+                // We assume slug here is actually the ID for dynamic resources
+                try {
+                    const dbResource = await apiCall(`/resources/${slug}`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
 
-                setBook(foundBook);
+                    const mappedBook: Book = {
+                        id: dbResource.id,
+                        slug: dbResource.id,
+                        title: dbResource.title,
+                        author: dbResource.author || 'Inconnu',
+                        category: dbResource.subject,
+                        level: dbResource.level, // MAPPING LEVEL HERE
+                        isPremium: dbResource.isPremium,
+                        description: dbResource.description || undefined,
+                        publicationDate: new Date(dbResource.createdAt).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' }),
+                        rating: 4.5,
+                        reviewsCount: 0,
+                        pdfUrl: dbResource.url,
+                        coverUrl: dbResource.coverUrl,
+                        isDynamic: true
+                    };
+
+                    if (mappedBook.isPremium && userData.plan !== 'PREMIUM') {
+                        router.push('/dashboard/library');
+                        return;
+                    }
+
+                    setBook(mappedBook);
+                } catch (apiErr) {
+                    // 2. If not in DB, try to find in static books
+                    const staticBook = allBooks.find(b => b.slug === slug);
+                    
+                    if (staticBook) {
+                        if (staticBook.isPremium && userData.plan !== 'PREMIUM') {
+                            router.push('/dashboard/library');
+                            return;
+                        }
+                        setBook(staticBook);
+                    } else {
+                        console.error('Resource not found in DB or static:', apiErr);
+                        router.push('/dashboard/library');
+                    }
+                }
             } catch (err) {
-                console.error(err);
+                console.error('Error loading book details:', err);
                 router.push('/dashboard/library');
             } finally {
                 setIsLoading(false);

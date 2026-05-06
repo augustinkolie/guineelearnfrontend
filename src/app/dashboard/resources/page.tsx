@@ -73,11 +73,11 @@ export default function ResourcesPage() {
         );
     }
 
-    const { user } = data;
+    const { user, profile } = data;
 
     return (
         <DashboardLayout user={user}>
-            <ResourcesView />
+            <ResourcesView profile={profile} />
         </DashboardLayout>
     );
 }

@@ -9,6 +9,10 @@ export interface Book {
     publicationDate?: string;
     rating?: number;
     reviewsCount?: number;
+    pdfUrl?: string;
+    isDynamic?: boolean;
+    coverUrl?: string;
+    level?: string;
 }
 
 export const allBooks: Book[] = [

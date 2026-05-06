@@ -2,9 +2,12 @@
 
 import { User, Users, BookOpen, Eye, EyeOff, Github, Facebook, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Logo } from '@/components/Logo';
 import { apiCall } from '@/utils/api';
+import ReCAPTCHA from 'react-google-recaptcha';
+
+const RECAPTCHA_SITE_KEY = '6LczKrcsAAAAADbeEpmMJhSWkMGy8pRnkQuewJPd';
 
 type RoleType = 'student' | 'teacher' | 'parent' | null;
 
@@ -14,10 +17,10 @@ export default function RegisterPage() {
     const [acceptTerms, setAcceptTerms] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [isNotRobot, setIsNotRobot] = useState(false);
-    const [isVerifying, setIsVerifying] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
+    const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+    const recaptchaRef = useRef<ReCAPTCHA>(null);
 
     const [formData, setFormData] = useState({
         fullName: '',
@@ -38,12 +41,12 @@ export default function RegisterPage() {
     });
 
     const schoolLevelsMapping = {
-        "Primaire": ["1ère année", "2ème année", "3ème année", "4ème année", "5ème année", "6ème année"],
-        "Collège": ["7ème année", "8ème année", "9ème année", "10ème année"],
+        "Primaire": ["1ère Année", "2ème Année", "3ème Année", "4ème Année", "5ème Année", "6ème Année"],
+        "Collège": ["7ème Année", "8ème Année", "9ème Année", "10ème Année"],
         "Lycée": [
             "11ème SM", "11ème SE", "11ème SS", 
             "12ème SM", "12ème SE", "12ème SS", 
-            "Terminale SM", "Terminale SE", "Terminale SS"
+            "TSM", "TSE", "TSS"
         ]
     };
 
@@ -91,7 +94,7 @@ export default function RegisterPage() {
 
     const handleFinalSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!isNotRobot || isVerifying || !acceptTerms) return;
+        if (!captchaToken || !acceptTerms) return;
 
         setIsLoading(true);
         setError('');
@@ -128,7 +131,8 @@ export default function RegisterPage() {
                     phone: formData.phone,
                     password: formData.password,
                     role: selectedRole?.toUpperCase(),
-                    profileData
+                    profileData,
+                    captchaToken
                 }),
             });
 
@@ -136,6 +140,8 @@ export default function RegisterPage() {
             window.location.href = '/dashboard';
         } catch (err: any) {
             setError(err.message || "Échec de l'inscription");
+            recaptchaRef.current?.reset();
+            setCaptchaToken(null);
         } finally {
             setIsLoading(false);
         }
@@ -417,7 +423,8 @@ export default function RegisterPage() {
                                                         <option value="Licence 1">Licence 1</option>
                                                         <option value="Licence 2">Licence 2</option>
                                                         <option value="Licence 3">Licence 3</option>
-                                                        <option value="Licence 4">Licence 4</option>
+                                                        <option value="Master">Master</option>
+                                                        <option value="Doctorat">Doctorat</option>
                                                     </select>
                                                 </div>
                                             </>
@@ -509,54 +516,14 @@ export default function RegisterPage() {
                                         </span>
                                     </label>
 
-                                    <div
-                                        onClick={() => {
-                                            if (!isNotRobot && !isVerifying) {
-                                                setIsVerifying(true);
-                                                setTimeout(() => {
-                                                    setIsVerifying(false);
-                                                    setIsNotRobot(true);
-                                                }, 1500);
-                                            }
-                                        }}
-                                        className="w-full h-[74px] bg-[#f9f9f9] border border-[#d3d3d3] rounded-[3px] flex items-center justify-between px-3 py-2 shadow-[0_0_4px_rgba(0,0,0,0.05)] cursor-pointer group hover:border-[#b3b3b3] transition-all"
-                                    >
-                                        <div className="flex items-center gap-3">
-                                            <div className={`w-[28px] h-[28px] rounded-[2px] border-2 flex items-center justify-center transition-all bg-white ${isNotRobot 
-                                                ? 'border-transparent' 
-                                                : isVerifying ? 'border-transparent' : 'border-[#c1c1c1] group-hover:border-[#b3b3b3]'}`}
-                                            >
-                                                {isVerifying ? (
-                                                    <div className="w-[24px] h-[24px] border-[3px] border-[#4285f4] border-t-transparent rounded-full animate-spin" />
-                                                ) : isNotRobot ? (
-                                                    <div className="relative w-full h-full flex items-center justify-center">
-                                                        <svg className="w-10 h-10 text-[#00a35c] absolute -top-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3.5">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                                        </svg>
-                                                    </div>
-                                                ) : null}
-                                            </div>
-                                            <span className="text-[14px] font-normal text-[#1E293B]">
-                                                Je ne suis pas un robot
-                                            </span>
-                                        </div>
-                                        <div className="flex flex-col items-center justify-center gap-0">
-                                            <div className="relative w-8 h-8 flex items-center justify-center">
-                                                {/* Official reCAPTCHA Logo SVG Recreation */}
-                                                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
-                                                    <path d="M12 4.5V2l-3.5 3.5L12 9V6.5c3.04 0 5.5 2.46 5.5 5.5s-2.46 5.5-5.5 5.5-5.5-2.46-5.5-5.5H4.5c0 4.14 3.36 7.5 7.5 7.5s7.5-3.36 7.5-7.5-3.36-7.5-7.5-7.5z" fill="#4285F4" />
-                                                    <path d="M12 6.5c-1.44 0-2.74.56-3.71 1.47l-1.42-1.42C8.24 5.31 10.02 4.5 12 4.5v2z" fill="#4285F4" />
-                                                    <path d="M8.29 7.97A5.48 5.48 0 0 0 6.5 12h-2c0-2.07.84-3.95 2.21-5.32l1.58 1.29z" fill="#777777" />
-                                                    <path d="M12 17.5V20c-4.14 0-7.5-3.36-7.5-7.5h2c0 3.04 2.46 5.5 5.5 5.5z" fill="#777777" opacity="0.5" />
-                                                </svg>
-                                            </div>
-                                            <span className="text-[10px] font-bold text-[#777777] tracking-tighter" style={{ fontFamily: 'sans-serif' }}>reCAPTCHA</span>
-                                            <div className="flex gap-1 text-[7px] text-[#777777] whitespace-nowrap mt-0.5">
-                                                <span>Confidentialité</span>
-                                                <span>-</span>
-                                                <span>Conditions</span>
-                                            </div>
-                                        </div>
+                                    {/* Real Google reCAPTCHA v2 */}
+                                    <div className="flex justify-center py-2">
+                                        <ReCAPTCHA
+                                            ref={recaptchaRef}
+                                            sitekey={RECAPTCHA_SITE_KEY}
+                                            onChange={(token) => setCaptchaToken(token)}
+                                            onExpired={() => setCaptchaToken(null)}
+                                        />
                                     </div>
                                 </div>
 

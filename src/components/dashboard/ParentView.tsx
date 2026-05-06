@@ -25,7 +25,7 @@ const attendanceData = [
 const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
         return (
-            <div className="bg-white p-4 rounded-xl shadow-2xl border border-gray-100 animate-in zoom-in-95 duration-200">
+            <div className="bg-white p-4 rounded-lg  border border-gray-200 animate-in zoom-in-95 duration-200">
                 <p className="text-sm font-black text-[#0F2D1E] mb-2">{label}</p>
                 <div className="space-y-1.5">
                     {payload.map((entry: any, index: number) => (
@@ -54,7 +54,7 @@ export const ParentView = ({ user, profile }: any) => {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Children Summary */}
-                <div className="bg-white p-8 rounded-xl border border-gray-100 shadow-sm space-y-6">
+                <div className="bg-white p-8 rounded-lg border border-gray-200  space-y-6">
                     <div className="flex items-center justify-between">
                         <h3 className="text-xl font-bold text-[#0F2D1E]">Mes Enfants</h3>
                         <span className="text-xs font-bold text-[#1B6B3A] bg-[#E8F5EE] px-3 py-1 rounded-full uppercase tracking-wider">
@@ -63,9 +63,9 @@ export const ParentView = ({ user, profile }: any) => {
                     </div>
 
                     <div className="space-y-4">
-                        <div className="p-4 rounded-xl bg-[#F8FAFC] border border-gray-50 flex items-center justify-between group cursor-pointer hover:border-[#1B6B3A]/20 transition-all">
+                        <div className="p-4 rounded-lg bg-[#F8FAFC] border border-gray-50 flex items-center justify-between group cursor-pointer hover:border-[#1B6B3A]/20 ">
                             <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-[#1B6B3A] shadow-sm font-black text-lg">
+                                <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-[#1B6B3A]  font-black text-lg">
                                     M
                                 </div>
                                 <div>
@@ -79,7 +79,7 @@ export const ParentView = ({ user, profile }: any) => {
                 </div>
 
                 {/* attendance Chart */}
-                <div className="bg-white p-8 rounded-xl border border-gray-100 shadow-sm space-y-6 text-center">
+                <div className="bg-white p-8 rounded-lg border border-gray-200  space-y-6 text-center">
                     <div className="flex items-center justify-between text-left">
                         <h3 className="text-xl font-bold text-[#0F2D1E]">Assiduité Globale</h3>
                         <PieIcon className="w-5 h-5 text-[#1B6B3A]" />
@@ -124,7 +124,7 @@ export const ParentView = ({ user, profile }: any) => {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Grades Chart (Grouped Bars) */}
-                <div className="bg-white p-8 rounded-xl border border-gray-100 shadow-sm space-y-6">
+                <div className="bg-white p-8 rounded-lg border border-gray-200  space-y-6">
                     <div className="flex items-center justify-between">
                         <h3 className="text-xl font-bold text-[#0F2D1E]">Notes par Matière</h3>
                         <div className="flex items-center gap-4">
@@ -163,7 +163,7 @@ export const ParentView = ({ user, profile }: any) => {
                 </div>
 
                 {/* Alerts / Activity */}
-                <div className="bg-white p-8 rounded-xl border border-gray-100 shadow-sm space-y-6">
+                <div className="bg-white p-8 rounded-lg border border-gray-200  space-y-6">
                     <h3 className="text-xl font-bold text-[#0F2D1E]">Dernières Alertes</h3>
                     <div className="space-y-4">
                         <div className="flex gap-4 items-start">
@@ -177,14 +177,14 @@ export const ParentView = ({ user, profile }: any) => {
                         </div>
                     </div>
                     
-                    <button className="w-full py-4 border-2 border-dashed border-gray-200 rounded-xl text-gray-400 font-bold hover:border-[#1B6B3A]/30 hover:text-[#1B6B3A] transition-all flex items-center justify-center gap-2">
+                    <button className="w-full py-4 border-2 border-dashed border-gray-200 rounded-lg text-gray-400 font-bold hover:border-[#1B6B3A]/30 hover:text-[#1B6B3A]  flex items-center justify-center gap-2">
                         <Calendar className="w-5 h-5" />
                         Consulter le calendrier scolaire
                     </button>
                 </div>
             </div>
             
-            <div className="bg-[#1B6B3A] rounded-xl p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl shadow-[#1B6B3A]/20">
+            <div className="bg-[#1B6B3A] rounded-lg p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6  shadow-[#1B6B3A]/20">
                 <div className="flex items-center gap-6 text-center md:text-left">
                     <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-lg flex items-center justify-center">
                         <ShieldCheck className="w-10 h-10" />
@@ -194,7 +194,7 @@ export const ParentView = ({ user, profile }: any) => {
                         <p className="text-green-100/70 font-medium">Vous recevrez une notification par SMS pour chaque absence signalée.</p>
                     </div>
                 </div>
-                <button className="bg-white text-[#1B6B3A] px-8 py-3 rounded-xl font-black uppercase text-xs tracking-widest hover:scale-105 active:scale-95 transition-all">
+                <button className="bg-white text-[#1B6B3A] px-8 py-3 rounded-lg font-black uppercase text-xs tracking-widest hover:scale-105 active:scale-95 ">
                     Paramètres
                 </button>
             </div>

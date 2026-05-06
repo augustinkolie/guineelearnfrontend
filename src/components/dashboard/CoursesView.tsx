@@ -8,12 +8,12 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 
 const COURSES_BY_LEVEL: Record<string, any[]> = {
-    '1ère année': [
+    '1ère Année': [
         { id: 1, title: 'Calcul écrit', fiches: 49, exos: '13 / 2', videos: 25, apps: 1, thumbnail: '/images/math_course_thumbnail_1775610573519.png' },
         { id: 2, title: 'Ecriture', fiches: 16, exos: '0 / 0', videos: 0, apps: 0, thumbnail: '/images/french_course_thumbnail_1775610625465.png' },
         { id: 3, title: 'Exercices sensoriels', fiches: 26, exos: '11 / 0', videos: 19, apps: 0, thumbnail: '/images/physics_course_thumbnail_1775610601650.png' }
     ],
-    '10ème année': [
+    '10ème Année': [
         { id: 1, title: 'Mathématiques', fiches: 120, exos: '45 / 12', videos: 34, apps: 5, thumbnail: '/images/math_course_thumbnail_1775610573519.png' },
         { id: 2, title: 'Physique', fiches: 85, exos: '30 / 8', videos: 28, apps: 3, thumbnail: '/images/physics_course_thumbnail_1775610601650.png' },
         { id: 3, title: 'Français', fiches: 95, exos: '25 / 5', videos: 20, apps: 2, thumbnail: '/images/french_course_thumbnail_1775610625465.png' },
@@ -25,7 +25,7 @@ const COURSES_BY_LEVEL: Record<string, any[]> = {
         { id: 9, title: 'Géographie', fiches: 45, exos: '12 / 3', videos: 8, apps: 0, thumbnail: '/images/math_course_thumbnail_1775610573519.png' },
         { id: 10, title: 'ECM', fiches: 30, exos: '8 / 1', videos: 5, apps: 0, thumbnail: '/images/physics_course_thumbnail_1775610601650.png' }
     ],
-    'Terminale SM': [
+    'TSM': [
         { id: 1, title: 'Mathématiques', fiches: 150, exos: '60 / 15', videos: 45, apps: 8, thumbnail: '/images/math_course_thumbnail_1775610573519.png' },
         { id: 2, title: 'Physique', fiches: 130, exos: '50 / 12', videos: 40, apps: 6, thumbnail: '/images/physics_course_thumbnail_1775610601650.png' },
         { id: 3, title: 'Chimie', fiches: 90, exos: '35 / 5', videos: 25, apps: 2, thumbnail: '/images/physics_course_thumbnail_1775610601650.png' },
@@ -33,16 +33,47 @@ const COURSES_BY_LEVEL: Record<string, any[]> = {
         { id: 5, title: 'Economie', fiches: 60, exos: '10 / 2', videos: 10, apps: 1, thumbnail: '/images/math_course_thumbnail_1775610573519.png' },
         { id: 6, title: 'Philosophie', fiches: 110, exos: '15 / 2', videos: 30, apps: 0, thumbnail: '/images/french_course_thumbnail_1775610625465.png' },
         { id: 7, title: 'Anglais', fiches: 75, exos: '25 / 8', videos: 15, apps: 2, thumbnail: '/images/french_course_thumbnail_1775610625465.png' }
+    ],
+    'TSE': [
+        { id: 1, title: 'Biologie', fiches: 140, exos: '40 / 10', videos: 35, apps: 5, thumbnail: '/images/physics_course_thumbnail_1775610601650.png' },
+        { id: 2, title: 'Géologie', fiches: 80, exos: '20 / 5', videos: 15, apps: 2, thumbnail: '/images/math_course_thumbnail_1775610573519.png' },
+        { id: 3, title: 'Mathématiques', fiches: 100, exos: '40 / 8', videos: 30, apps: 4, thumbnail: '/images/math_course_thumbnail_1775610573519.png' },
+        { id: 4, title: 'Physique', fiches: 120, exos: '45 / 10', videos: 38, apps: 5, thumbnail: '/images/physics_course_thumbnail_1775610601650.png' },
+        { id: 5, title: 'Chimie', fiches: 95, exos: '30 / 6', videos: 22, apps: 2, thumbnail: '/images/physics_course_thumbnail_1775610601650.png' },
+        { id: 6, title: 'Philosophie', fiches: 110, exos: '15 / 2', videos: 30, apps: 0, thumbnail: '/images/french_course_thumbnail_1775610625465.png' },
+        { id: 7, title: 'Français', fiches: 85, exos: '20 / 4', videos: 18, apps: 1, thumbnail: '/images/french_course_thumbnail_1775610625465.png' },
+        { id: 8, title: 'Anglais', fiches: 75, exos: '25 / 8', videos: 15, apps: 2, thumbnail: '/images/french_course_thumbnail_1775610625465.png' }
+    ],
+    '11ème SM': [
+        { id: 1, title: 'Mathématiques', fiches: 120, exos: '40 / 10', videos: 30, apps: 5, thumbnail: '/images/math_course_thumbnail_1775610573519.png' },
+        { id: 2, title: 'Physique', fiches: 100, exos: '35 / 8', videos: 25, apps: 4, thumbnail: '/images/physics_course_thumbnail_1775610601650.png' }
+    ],
+    '11ème SE': [
+        { id: 1, title: 'SVT', fiches: 110, exos: '30 / 5', videos: 28, apps: 3, thumbnail: '/images/physics_course_thumbnail_1775610601650.png' },
+        { id: 2, title: 'Mathématiques', fiches: 90, exos: '25 / 5', videos: 20, apps: 2, thumbnail: '/images/math_course_thumbnail_1775610573519.png' }
+    ],
+    '12ème SM': [
+        { id: 1, title: 'Mathématiques', fiches: 140, exos: '55 / 12', videos: 40, apps: 6, thumbnail: '/images/math_course_thumbnail_1775610573519.png' },
+        { id: 2, title: 'Physique', fiches: 120, exos: '45 / 10', videos: 35, apps: 5, thumbnail: '/images/physics_course_thumbnail_1775610601650.png' }
+    ],
+    '12ème SE': [
+        { id: 1, title: 'Biologie', fiches: 130, exos: '35 / 8', videos: 30, apps: 4, thumbnail: '/images/physics_course_thumbnail_1775610601650.png' },
+        { id: 2, title: 'Physique', fiches: 110, exos: '40 / 8', videos: 32, apps: 4, thumbnail: '/images/physics_course_thumbnail_1775610601650.png' }
     ]
 };
 
 export const CoursesView = ({ profile }: { profile: any }) => {
     // Determine level from profile
-    const rawLevel = profile?.subLevel || profile?.schoolLevel || 'Terminale SM';
-    const displayedLevel = rawLevel === 'Primaire' ? '1ère année' : rawLevel;
+    const rawLevel = profile?.subLevel || profile?.schoolLevel || 'TSM';
+    const displayedLevel = rawLevel
+        .replace('année', 'Année')
+        .replace('Terminale SM', 'TSM')
+        .replace('Terminale SE', 'TSE')
+        .replace('Terminale SS', 'TSS')
+        .trim();
     
-    // Get courses for this level, fallback to Terminale SM if not found
-    const currentCourses = COURSES_BY_LEVEL[displayedLevel] || COURSES_BY_LEVEL['Terminale SM'];
+    // Get courses for this level, fallback to TSM if not found
+    const currentCourses = COURSES_BY_LEVEL[displayedLevel] || COURSES_BY_LEVEL['TSM'];
     const router = useRouter();
 
     return (
@@ -62,7 +93,7 @@ export const CoursesView = ({ profile }: { profile: any }) => {
                         <input 
                             type="text" 
                             placeholder="Rechercher une matière..." 
-                            className="pl-11 pr-4 py-3 bg-white border border-gray-100 rounded-xl text-sm font-medium w-64 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#1B6B3A]/10 focus:border-[#1B6B3A]/40 transition-all font-sans"
+                            className="pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-lg text-sm font-medium w-64  focus:outline-none focus:ring-2 focus:ring-[#1B6B3A]/10 focus:border-[#1B6B3A]/40  font-sans"
                         />
                     </div>
                 </div>
@@ -78,7 +109,7 @@ export const CoursesView = ({ profile }: { profile: any }) => {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.4 }}
                         onClick={() => router.push(`/dashboard/courses/${course.id}?title=${encodeURIComponent(course.title)}&level=${encodeURIComponent(displayedLevel)}`)}
-                        className="bg-white rounded-2xl shadow-xl shadow-gray-100/50 border border-gray-100 overflow-hidden relative flex flex-col h-full group cursor-pointer"
+                        className="bg-white rounded-lg  shadow-gray-100/50 border border-gray-200 hover:border-emerald-500/40  duration-300 overflow-hidden relative flex flex-col h-full group cursor-pointer"
                     >
                         {/* Course Image */}
                         <div className="relative h-40 sm:h-44 overflow-hidden">
@@ -91,7 +122,7 @@ export const CoursesView = ({ profile }: { profile: any }) => {
                                 }}
                             />
                             {/* Price Badge */}
-                            <div className="absolute bottom-4 right-4 px-4 py-2 bg-[#1B6B3A] text-white text-[11px] font-black rounded-lg shadow-xl uppercase tracking-widest">
+                            <div className="absolute bottom-4 right-4 px-4 py-2 bg-[#1B6B3A] text-white text-[11px] font-black rounded-lg  uppercase tracking-widest">
                                 9,000 GNF/MOIS
                             </div>
                         </div>
@@ -109,7 +140,7 @@ export const CoursesView = ({ profile }: { profile: any }) => {
                             </div>
 
                             {/* Dotted Line */}
-                            <div className="border-t border-dashed border-gray-100 my-3" />
+                            <div className="border-t border-dashed border-gray-200 my-3" />
 
                             {/* Stats Grid */}
                             <div className="grid grid-cols-2 gap-x-6 gap-y-3 mb-2">

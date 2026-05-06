@@ -110,7 +110,7 @@ export const AdminSettingsView = () => {
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 relative">
             {/* Notifications */}
             {notification && (
-                <div className={`fixed top-6 right-6 z-[60] flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl border animate-in slide-in-from-right-full duration-300 ${
+                <div className={`fixed top-6 right-6 z-[60] flex items-center gap-3 px-6 py-4 rounded-lg  border animate-in slide-in-from-right-full duration-300 ${
                     notification.type === 'success' ? 'bg-emerald-50 border-emerald-200 text-emerald-700' : 'bg-red-50 border-red-200 text-red-700'
                 }`}>
                     {notification.type === 'success' ? <CheckCircle2 className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
@@ -127,7 +127,7 @@ export const AdminSettingsView = () => {
                 <button 
                     onClick={() => handleSave()}
                     disabled={isSaving}
-                    className="flex items-center gap-2 px-6 py-2.5 bg-[#1B6B3A] text-white rounded-xl font-bold text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-[#1B6B3A]/20 disabled:opacity-50"
+                    className="flex items-center gap-2 px-6 py-2.5 bg-[#1B6B3A] text-white rounded-lg font-bold text-sm  active:scale-[0.98]   shadow-[#1B6B3A]/20 disabled:opacity-50"
                 >
                     {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                     Enregistrer
@@ -138,7 +138,7 @@ export const AdminSettingsView = () => {
                 {/* Left Column - General Settings */}
                 <div className="lg:col-span-2 space-y-8">
                     {/* Site Identity */}
-                    <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-5">
+                    <div className="bg-white p-6 rounded-lg border border-gray-200  space-y-5">
                         <div className="flex items-center gap-3 pb-3 border-b border-gray-50">
                             <Monitor className="w-4 h-4 text-[#1B6B3A]" />
                             <h2 className="text-lg font-bold text-[#0F2D1E]">Identité de la Plateforme</h2>
@@ -151,7 +151,7 @@ export const AdminSettingsView = () => {
                                     type="text" 
                                     value={config.platformName}
                                     onChange={(e) => setConfig({...config, platformName: e.target.value})}
-                                    className="w-full px-4 py-2.5 bg-gray-50 border border-transparent rounded-xl focus:bg-white focus:border-[#1B6B3A]/20 transition-all font-bold text-sm text-[#0F2D1E] outline-none"
+                                    className="w-full px-4 py-2.5 bg-gray-50 border border-transparent rounded-lg focus:bg-white focus:border-[#1B6B3A]/20  font-bold text-sm text-[#0F2D1E] outline-none"
                                 />
                             </div>
                             <div className="space-y-1.5">
@@ -160,7 +160,7 @@ export const AdminSettingsView = () => {
                                     type="text" 
                                     value={config.slogan}
                                     onChange={(e) => setConfig({...config, slogan: e.target.value})}
-                                    className="w-full px-4 py-2.5 bg-gray-50 border border-transparent rounded-xl focus:bg-white focus:border-[#1B6B3A]/20 transition-all font-bold text-sm text-[#0F2D1E] outline-none"
+                                    className="w-full px-4 py-2.5 bg-gray-50 border border-transparent rounded-lg focus:bg-white focus:border-[#1B6B3A]/20  font-bold text-sm text-[#0F2D1E] outline-none"
                                 />
                             </div>
                         </div>
@@ -171,13 +171,13 @@ export const AdminSettingsView = () => {
                                 rows={3}
                                 value={config.metaDescription || ''}
                                 onChange={(e) => setConfig({...config, metaDescription: e.target.value})}
-                                className="w-full px-4 py-2.5 bg-gray-50 border border-transparent rounded-xl focus:bg-white focus:border-[#1B6B3A]/20 transition-all font-bold text-sm text-[#0F2D1E] resize-none outline-none"
+                                className="w-full px-4 py-2.5 bg-gray-50 border border-transparent rounded-lg focus:bg-white focus:border-[#1B6B3A]/20  font-bold text-sm text-[#0F2D1E] resize-none outline-none"
                             />
                         </div>
                     </div>
 
                     {/* Contact Info */}
-                    <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-5">
+                    <div className="bg-white p-6 rounded-lg border border-gray-200  space-y-5">
                         <div className="flex items-center gap-3 pb-3 border-b border-gray-50">
                             <Mail className="w-4 h-4 text-[#1B6B3A]" />
                             <h2 className="text-lg font-bold text-[#0F2D1E]">Informations de Contact</h2>
@@ -192,7 +192,7 @@ export const AdminSettingsView = () => {
                                         type="email" 
                                         value={config.supportEmail || ''}
                                         onChange={(e) => setConfig({...config, supportEmail: e.target.value})}
-                                        className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-transparent rounded-xl focus:bg-white focus:border-[#1B6B3A]/20 transition-all font-bold text-sm text-[#0F2D1E] outline-none"
+                                        className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-transparent rounded-lg focus:bg-white focus:border-[#1B6B3A]/20  font-bold text-sm text-[#0F2D1E] outline-none"
                                     />
                                 </div>
                             </div>
@@ -204,7 +204,7 @@ export const AdminSettingsView = () => {
                                         type="text" 
                                         value={config.officialPhone || ''}
                                         onChange={(e) => setConfig({...config, officialPhone: e.target.value})}
-                                        className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-transparent rounded-xl focus:bg-white focus:border-[#1B6B3A]/20 transition-all font-bold text-sm text-[#0F2D1E] outline-none"
+                                        className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-transparent rounded-lg focus:bg-white focus:border-[#1B6B3A]/20  font-bold text-sm text-[#0F2D1E] outline-none"
                                     />
                                 </div>
                             </div>
@@ -215,16 +215,16 @@ export const AdminSettingsView = () => {
                 {/* Right Column - Status & Toggles */}
                 <div className="space-y-8">
                     {/* Security & Access */}
-                    <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-6">
+                    <div className="bg-white p-6 rounded-lg border border-gray-200  space-y-6">
                         <div className="flex items-center gap-3 pb-3 border-b border-gray-50">
                             <Shield className="w-4 h-4 text-[#1B6B3A]" />
                             <h2 className="text-sm font-black uppercase tracking-tight text-[#0F2D1E]">Accès & Sécurité</h2>
                         </div>
 
                         {/* Maintenance Mode */}
-                        <div className={`flex items-center justify-between p-3.5 rounded-xl border transition-all ${config.maintenanceMode ? 'bg-amber-50 border-amber-200' : 'bg-gray-50 border-gray-100 hover:bg-gray-100'}`}>
+                        <div className={`flex items-center justify-between p-3.5 rounded-lg border  ${config.maintenanceMode ? 'bg-amber-50 border-amber-200' : 'bg-gray-50 border-gray-200 hover:bg-gray-100'}`}>
                             <div className="flex items-center gap-3">
-                                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${config.maintenanceMode ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/20' : 'bg-gray-200 text-gray-500'}`}>
+                                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${config.maintenanceMode ? 'bg-amber-500 text-white  shadow-amber-500/20' : 'bg-gray-200 text-gray-500'}`}>
                                     {isToggling === 'maintenanceMode' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Lock className="w-4 h-4" />}
                                 </div>
                                 <div>
@@ -235,16 +235,16 @@ export const AdminSettingsView = () => {
                             <button 
                                 onClick={() => handleToggle('maintenanceMode', 'Mode Maintenance')}
                                 disabled={isToggling !== null}
-                                className={`w-10 h-5 rounded-full relative p-0.5 transition-all flex items-center ${config.maintenanceMode ? 'bg-amber-500' : 'bg-gray-300'} ${isToggling ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                className={`w-10 h-5 rounded-full relative p-0.5  flex items-center ${config.maintenanceMode ? 'bg-amber-500' : 'bg-gray-300'} ${isToggling ? 'opacity-50 cursor-not-allowed' : ''}`}
                             >
-                                <div className={`w-3.5 h-3.5 bg-white rounded-full shadow-sm transition-transform ${config.maintenanceMode ? 'translate-x-5' : 'translate-x-0'}`} />
+                                <div className={`w-3.5 h-3.5 bg-white rounded-full  transition-transform ${config.maintenanceMode ? 'translate-x-5' : 'translate-x-0'}`} />
                             </button>
                         </div>
 
                         {/* Registrations Open */}
-                        <div className={`flex items-center justify-between p-3.5 rounded-xl border transition-all ${config.registrationsOpen ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-100 hover:bg-rose-50/50'}`}>
+                        <div className={`flex items-center justify-between p-3.5 rounded-lg border  ${config.registrationsOpen ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-100 hover:bg-rose-50/50'}`}>
                             <div className="flex items-center gap-3">
-                                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${config.registrationsOpen ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' : 'bg-rose-200 text-rose-500'}`}>
+                                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${config.registrationsOpen ? 'bg-emerald-500 text-white  shadow-emerald-500/20' : 'bg-rose-200 text-rose-500'}`}>
                                     {isToggling === 'registrationsOpen' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Share2 className="w-4 h-4" />}
                                 </div>
                                 <div>
@@ -255,15 +255,15 @@ export const AdminSettingsView = () => {
                             <button 
                                 onClick={() => handleToggle('registrationsOpen', 'Inscriptions')}
                                 disabled={isToggling !== null}
-                                className={`w-10 h-5 rounded-full relative p-0.5 transition-all flex items-center ${config.registrationsOpen ? 'bg-emerald-500' : 'bg-gray-300'} ${isToggling ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                className={`w-10 h-5 rounded-full relative p-0.5  flex items-center ${config.registrationsOpen ? 'bg-emerald-500' : 'bg-gray-300'} ${isToggling ? 'opacity-50 cursor-not-allowed' : ''}`}
                             >
-                                <div className={`w-3.5 h-3.5 bg-white rounded-full shadow-sm transition-transform ${config.registrationsOpen ? 'translate-x-5' : 'translate-x-0'}`} />
+                                <div className={`w-3.5 h-3.5 bg-white rounded-full  transition-transform ${config.registrationsOpen ? 'translate-x-5' : 'translate-x-0'}`} />
                             </button>
                         </div>
                     </div>
 
                     {/* Quick Info Box */}
-                    <div className="bg-[#E8F5EE] p-6 rounded-2xl border border-[#1B6B3A]/10 space-y-3">
+                    <div className="bg-[#E8F5EE] p-6 rounded-lg border border-[#1B6B3A]/10 space-y-3">
                         <div className="flex items-center gap-2.5">
                             <div className="w-7 h-7 rounded-lg bg-[#1B6B3A] text-white flex items-center justify-center font-black text-[10px]">i</div>
                             <h3 className="text-xs font-black text-[#0F2D1E] uppercase tracking-wider">Aide Système</h3>

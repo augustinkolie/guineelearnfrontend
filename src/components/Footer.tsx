@@ -71,7 +71,7 @@ export const Footer = () => {
 
                 {/* Bottom Bar */}
                 <div className="pt-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-400">
-                    <p>© 2024 GuinéeLearn. Tous droits réservés.</p>
+                    <p>© 2026 GuinéeLearn. Tous droits réservés.</p>
                     <div className="flex flex-wrap justify-center gap-6">
                         <Link href="#" className="hover:text-white transition-colors">Conditions d'utilisation</Link>
                         <Link href="#" className="hover:text-white transition-colors">Politique de confidentialité</Link>

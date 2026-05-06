@@ -73,12 +73,12 @@ export const Pricing = () => {
         }
         
         if (plan.price === "0") {
-            // Free plan logic if needed
+            router.push('/dashboard');
             return;
         }
 
-        setSelectedPlan(plan);
-        setIsPaymentModalOpen(true);
+        // Redirect to the new high-fidelity checkout page with plan type
+        router.push(`/checkout/premium?plan=${plan.name}`);
     };
 
     const handlePaymentSuccess = () => {
@@ -128,7 +128,7 @@ export const Pricing = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className={`relative bg-white rounded-xl p-6 flex flex-col h-full shadow-2xl shadow-gray-200/50 border-2 ${plan.highlighted ? "border-[#1B6B3A] pb-1.5" : "border-transparent pb-6 md:pb-8"
+                            className={`relative bg-white rounded-xl p-6 flex flex-col h-full shadow-2xl shadow-gray-200/50 border-2 transition-all duration-300 hover:border-emerald-500/40 ${plan.highlighted ? "border-[#1B6B3A] pb-1.5" : "border-transparent pb-6 md:pb-8"
                                 }`}
                         >
                             {plan.badge && (

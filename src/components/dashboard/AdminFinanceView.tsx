@@ -108,7 +108,7 @@ export const AdminFinanceView = ({ user }: { user: any }) => {
             {isModalOpen && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                     <div className="absolute inset-0 bg-[#0F2D1E]/40 backdrop-blur-md transition-opacity animate-in fade-in duration-300" onClick={() => setIsModalOpen(false)} />
-                    <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl relative z-10 overflow-hidden animate-in zoom-in-95 duration-300">
+                    <div className="bg-white w-full max-w-md rounded-lg  relative z-10 overflow-hidden animate-in zoom-in-95 duration-300">
                         <div className="bg-[#0F2D1E] p-6 text-white text-center relative overflow-hidden">
                             {/* Unique Pattern Overlay */}
                             <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #1B6B3A 1.5px, transparent 1px)', backgroundSize: '12px 12px' }} />
@@ -129,7 +129,7 @@ export const AdminFinanceView = ({ user }: { user: any }) => {
                                     placeholder="ex: Inscription Premium" 
                                     value={newOp.label}
                                     onChange={e => setNewOp({...newOp, label: e.target.value})}
-                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl outline-none focus:border-[#1B6B3A]/30 focus:ring-4 focus:ring-[#1B6B3A]/5 transition-all font-bold text-sm"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:border-[#1B6B3A]/30 focus:ring-4 focus:ring-[#1B6B3A]/5  font-bold text-sm"
                                 />
                             </div>
 
@@ -142,7 +142,7 @@ export const AdminFinanceView = ({ user }: { user: any }) => {
                                         placeholder="120000" 
                                         value={newOp.amount}
                                         onChange={e => setNewOp({...newOp, amount: e.target.value})}
-                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl outline-none focus:border-[#1B6B3A]/30 focus:ring-4 focus:ring-[#1B6B3A]/5 transition-all font-black text-sm"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:border-[#1B6B3A]/30 focus:ring-4 focus:ring-[#1B6B3A]/5  font-black text-sm"
                                     />
                                 </div>
                                 <div className="space-y-1.5">
@@ -150,7 +150,7 @@ export const AdminFinanceView = ({ user }: { user: any }) => {
                                     <select 
                                         value={newOp.type}
                                         onChange={e => setNewOp({...newOp, type: e.target.value as 'IN' | 'OUT'})}
-                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl outline-none focus:border-[#1B6B3A]/30 focus:ring-4 focus:ring-[#1B6B3A]/5 transition-all font-bold text-sm"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:border-[#1B6B3A]/30 focus:ring-4 focus:ring-[#1B6B3A]/5  font-bold text-sm"
                                     >
                                         <option value="IN">Entrée (Recette)</option>
                                         <option value="OUT">Sortie (Dépense)</option>
@@ -163,7 +163,7 @@ export const AdminFinanceView = ({ user }: { user: any }) => {
                                 <select 
                                     value={newOp.category}
                                     onChange={e => setNewOp({...newOp, category: e.target.value})}
-                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl outline-none focus:border-[#1B6B3A]/30 focus:ring-4 focus:ring-[#1B6B3A]/5 transition-all font-bold text-sm"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:border-[#1B6B3A]/30 focus:ring-4 focus:ring-[#1B6B3A]/5  font-bold text-sm"
                                 >
                                     <option value="Abonnement">Abonnement</option>
                                     <option value="Vente directe">Vente directe</option>
@@ -178,13 +178,13 @@ export const AdminFinanceView = ({ user }: { user: any }) => {
                                 <button 
                                     type="button" 
                                     onClick={() => setIsModalOpen(false)}
-                                    className="flex-1 py-3 bg-gray-100 text-gray-500 rounded-xl font-bold hover:bg-gray-200 transition-all text-sm"
+                                    className="flex-1 py-3 bg-gray-100 text-gray-500 rounded-lg font-bold hover:bg-gray-200  text-sm"
                                 >
                                     Annuler
                                 </button>
                                 <button 
                                     type="submit" 
-                                    className="flex-2 py-3 bg-[#1B6B3A] text-white rounded-xl font-black hover:bg-[#155230] transition-all shadow-lg shadow-[#1B6B3A]/20 text-sm"
+                                    className="flex-2 py-3 bg-[#1B6B3A] text-white rounded-lg font-black hover:bg-[#155230]   shadow-[#1B6B3A]/20 text-sm"
                                 >
                                     Enregistrer l'opération
                                 </button>
@@ -207,7 +207,7 @@ export const AdminFinanceView = ({ user }: { user: any }) => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <div className="relative bg-white border border-gray-100 rounded-xl flex items-center shadow-sm hover:bg-gray-50 transition-all group overflow-hidden">
+                    <div className="relative bg-white border border-gray-200 rounded-lg flex items-center  hover:bg-gray-50  group overflow-hidden">
                         <Calendar className="w-4 h-4 text-[#1B6B3A] ml-4 absolute left-0 pointer-events-none" />
                         <select 
                             value={timeRange}
@@ -222,7 +222,7 @@ export const AdminFinanceView = ({ user }: { user: any }) => {
                     </div>
                     <button 
                         onClick={() => setIsModalOpen(true)}
-                        className="flex items-center gap-2 px-6 py-2.5 bg-[#1B6B3A] text-white rounded-xl font-bold text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-[#1B6B3A]/20 disabled:opacity-50"
+                        className="flex items-center gap-2 px-6 py-2.5 bg-[#1B6B3A] text-white rounded-lg font-bold text-sm  active:scale-[0.98]   shadow-[#1B6B3A]/20 disabled:opacity-50"
                     >
                         <Plus className="w-4 h-4" /> Nouvelle Opération
                     </button>
@@ -232,14 +232,21 @@ export const AdminFinanceView = ({ user }: { user: any }) => {
             {/* --- FINANCE TICKER / KPI CARDS --- */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Total Balance Card */}
-                <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm relative transition-all hover:shadow-md group">
+                <div className="bg-white p-6 rounded-lg border border-gray-200  relative  hover: group">
                     <div className="flex items-start justify-between mb-6">
-                        <div className="w-11 h-11 rounded-xl bg-blue-50/50 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                        <div className="w-11 h-11 rounded-lg bg-blue-50/50 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white  duration-300">
                             <Wallet className="w-5 h-5" />
                         </div>
-                        <span className="flex items-center gap-1 text-emerald-500 font-bold text-[11px] bg-emerald-50 px-2.5 py-1 rounded-lg">
-                            <TrendingUp className="w-3.5 h-3.5" /> +12.4%
-                        </span>
+                        {/* Signal Bars */}
+                        <div className="flex items-end gap-1.5 h-10 px-1">
+                            {[0.4, 0.7, 0.5, 0.9].map((h, idx) => (
+                                <div 
+                                    key={idx}
+                                    className="w-1.5 rounded-full bg-blue-500 transition-all duration-500 group-hover:scale-y-110"
+                                    style={{ height: `${h * 100}%`, opacity: 0.2 + (idx * 0.25), transitionDelay: `${idx * 50}ms` }}
+                                />
+                            ))}
+                        </div>
                     </div>
                     <div className="flex items-end justify-between">
                         <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Solde Total Actuel</p>
@@ -248,38 +255,50 @@ export const AdminFinanceView = ({ user }: { user: any }) => {
                 </div>
 
                 {/* Income Card */}
-                <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm relative transition-all hover:shadow-md group">
+                <div className="bg-white p-6 rounded-lg border border-gray-200  relative  hover: group">
                     <div className="flex items-start justify-between mb-6">
-                        <div className="w-11 h-11 rounded-xl bg-emerald-50/50 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
+                        <div className="w-11 h-11 rounded-lg bg-emerald-50/50 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white  duration-300">
                             <TrendingUp className="w-5 h-5" />
                         </div>
-                        <span className="text-[11px] font-black text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg">75%</span>
+                        {/* Signal Bars */}
+                        <div className="flex items-end gap-1.5 h-10 px-1">
+                            {[0.3, 0.6, 0.8, 1.0].map((h, idx) => (
+                                <div 
+                                    key={idx}
+                                    className="w-1.5 rounded-full bg-emerald-500 transition-all duration-500 group-hover:scale-y-110"
+                                    style={{ height: `${h * 100}%`, opacity: 0.2 + (idx * 0.25), transitionDelay: `${idx * 50}ms` }}
+                                />
+                            ))}
+                        </div>
                     </div>
                     <div className="flex items-end justify-between">
                         <div>
                             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Entrées (Ce mois)</p>
-                            <div className="h-1 w-24 bg-gray-50 rounded-full overflow-hidden">
-                                <div className="h-full bg-emerald-500 transition-all duration-1000" style={{ width: '75%' }} />
-                            </div>
                         </div>
                         <h2 className="text-xl font-black text-[#0F2D1E] tracking-tight leading-none">{formatCurrency(totalIn)}</h2>
                     </div>
                 </div>
 
                 {/* Expense Card */}
-                <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm relative transition-all hover:shadow-md group">
+                <div className="bg-white p-6 rounded-lg border border-gray-200  relative  hover: group">
                     <div className="flex items-start justify-between mb-6">
-                        <div className="w-11 h-11 rounded-xl bg-rose-50/50 flex items-center justify-center text-rose-600 group-hover:bg-rose-600 group-hover:text-white transition-all duration-300">
+                        <div className="w-11 h-11 rounded-lg bg-rose-50/50 flex items-center justify-center text-rose-600 group-hover:bg-rose-600 group-hover:text-white  duration-300">
                             <TrendingDown className="w-5 h-5" />
                         </div>
-                        <span className="text-[11px] font-black text-rose-600 bg-rose-50 px-2.5 py-1 rounded-lg">30%</span>
+                        {/* Signal Bars */}
+                        <div className="flex items-end gap-1.5 h-10 px-1">
+                            {[0.8, 0.4, 0.6, 0.5].map((h, idx) => (
+                                <div 
+                                    key={idx}
+                                    className="w-1.5 rounded-full bg-rose-500 transition-all duration-500 group-hover:scale-y-110"
+                                    style={{ height: `${h * 100}%`, opacity: 0.2 + (idx * 0.25), transitionDelay: `${idx * 50}ms` }}
+                                />
+                            ))}
+                        </div>
                     </div>
                     <div className="flex items-end justify-between">
                         <div>
                             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Sorties (Ce mois)</p>
-                            <div className="h-1 w-24 bg-gray-50 rounded-full overflow-hidden">
-                                <div className="h-full bg-rose-500 transition-all duration-1000" style={{ width: '30%' }} />
-                            </div>
                         </div>
                         <h2 className="text-xl font-black text-[#0F2D1E] tracking-tight leading-none">{formatCurrency(totalOut)}</h2>
                     </div>
@@ -287,7 +306,7 @@ export const AdminFinanceView = ({ user }: { user: any }) => {
             </div>
 
             {/* --- MAIN CHART: GROWTH TREND --- */}
-            <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
+            <div className="bg-white p-8 rounded-lg border border-gray-200 ">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                     <div>
                         <h3 className="text-xl font-bold text-[#0F2D1E]">Analyse des Tendances</h3>
@@ -337,7 +356,7 @@ export const AdminFinanceView = ({ user }: { user: any }) => {
                                 content={({ active, payload, label }) => {
                                     if (active && payload && payload.length) {
                                         return (
-                                            <div className="bg-white p-4 rounded-xl shadow-2xl border border-gray-100">
+                                            <div className="bg-white p-4 rounded-lg  border border-gray-200">
                                                 <p className="text-xs font-black text-gray-400 mb-3 uppercase tracking-widest">{label}</p>
                                                 <div className="space-y-2">
                                                     <div className="flex items-center justify-between gap-6">
@@ -363,7 +382,7 @@ export const AdminFinanceView = ({ user }: { user: any }) => {
             </div>
 
             {/* --- TRANSACTION HISTORY --- */}
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="bg-white rounded-lg border border-gray-200  overflow-hidden">
                 <div className="p-6 border-b border-gray-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <h3 className="text-xl font-bold text-[#0F2D1E]">Dernières Transactions</h3>
                     <div className="relative w-full md:w-80 group">
@@ -373,7 +392,7 @@ export const AdminFinanceView = ({ user }: { user: any }) => {
                             placeholder="Rechercher une transaction..." 
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-transparent rounded-xl text-sm font-medium outline-none focus:bg-white focus:border-[#1B6B3A]/20 transition-all"
+                            className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-transparent rounded-lg text-sm font-medium outline-none focus:bg-white focus:border-[#1B6B3A]/20 "
                         />
                     </div>
                 </div>
@@ -429,7 +448,7 @@ export const AdminFinanceView = ({ user }: { user: any }) => {
                 </div>
 
                 <div className="p-6 bg-gray-50/50 border-t border-gray-50 text-center">
-                    <button className="text-sm font-bold text-[#1B6B3A] hover:underline transition-all">Voir tout l'historique financier</button>
+                    <button className="text-sm font-bold text-[#1B6B3A] hover:underline ">Voir tout l'historique financier</button>
                 </div>
             </div>
         </div>

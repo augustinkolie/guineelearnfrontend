@@ -13,8 +13,8 @@ import {
     Radio
 } from 'lucide-react';
 import { 
-    AreaChart, 
-    Area, 
+    LineChart, 
+    Line, 
     XAxis, 
     YAxis, 
     CartesianGrid, 
@@ -96,7 +96,7 @@ export const AdminRealtimeView = ({ user }: { user: any }) => {
     const CustomTooltip = ({ active, payload, label }: any) => {
         if (active && payload && payload.length) {
             return (
-                <div className="bg-[#0A1A11]/90 backdrop-blur-md p-4 rounded-xl border border-white/10 shadow-2xl">
+                <div className="bg-[#0A1A11]/90 backdrop-blur-md p-4 rounded-lg border border-white/10 ">
                     <p className="text-xs font-black text-gray-400 mb-2">{label}</p>
                     {payload.map((entry: any, index: number) => (
                         <div key={index} className="flex items-center gap-2 mb-1 last:mb-0">
@@ -142,7 +142,7 @@ export const AdminRealtimeView = ({ user }: { user: any }) => {
             {/* Live Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Users Live */}
-                <div className="bg-gradient-to-br from-[#0F2D1E] to-[#0A1A11] p-6 rounded-2xl border border-white/5 shadow-2xl relative overflow-hidden group">
+                <div className="bg-gradient-to-br from-[#0F2D1E] to-[#0A1A11] p-6 rounded-lg border border-white/5  relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-4 opacity-10">
                         <Users className="w-24 h-24" />
                     </div>
@@ -157,7 +157,7 @@ export const AdminRealtimeView = ({ user }: { user: any }) => {
                 </div>
 
                 {/* Requests */}
-                <div className="bg-gradient-to-br from-[#1A1F2C] to-[#0F1420] p-6 rounded-2xl border border-white/5 shadow-2xl relative overflow-hidden">
+                <div className="bg-gradient-to-br from-[#1A1F2C] to-[#0F1420] p-6 rounded-lg border border-white/5  relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-4 opacity-10">
                         <Activity className="w-24 h-24 text-blue-400" />
                     </div>
@@ -171,7 +171,7 @@ export const AdminRealtimeView = ({ user }: { user: any }) => {
                 </div>
 
                 {/* Latency */}
-                <div className="bg-gradient-to-br from-[#1A1F2C] to-[#0F1420] p-6 rounded-2xl border border-white/5 shadow-2xl relative overflow-hidden">
+                <div className="bg-gradient-to-br from-[#1A1F2C] to-[#0F1420] p-6 rounded-lg border border-white/5  relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-4 opacity-10">
                         <Clock className="w-24 h-24 text-purple-400" />
                     </div>
@@ -184,16 +184,16 @@ export const AdminRealtimeView = ({ user }: { user: any }) => {
             </div>
 
             {/* Trading Style Live Graph */}
-            <div className="bg-[#0A1A11] p-6 border border-white/5 rounded-2xl shadow-2xl">
+            <div className="bg-[#0A1A11] p-6 border border-white/5 rounded-lg ">
                 <div className="flex items-center justify-between mb-8">
                     <h3 className="text-xl font-bold text-white uppercase tracking-wider">Trafic Global Continu</h3>
                     <div className="flex gap-4">
                         <div className="flex items-center gap-2">
-                            <span className="w-3 h-3 rounded-full bg-[#27AE60] shadow-[0_0_10px_#27AE60]"></span>
+                            <span className="w-3 h-3 rounded-full bg-[#8B5CF6] shadow-[0_0_10px_#8B5CF6]"></span>
                             <span className="text-xs font-bold text-gray-400 uppercase">Utilisateurs</span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <span className="w-3 h-3 rounded-full bg-[#3B82F6] shadow-[0_0_10px_#3B82F6]"></span>
+                            <span className="w-3 h-3 rounded-full bg-[#F97316] shadow-[0_0_10px_#F97316]"></span>
                             <span className="text-xs font-bold text-gray-400 uppercase">Requêtes</span>
                         </div>
                     </div>
@@ -201,18 +201,8 @@ export const AdminRealtimeView = ({ user }: { user: any }) => {
 
                 <div className="h-[400px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
-                        <AreaChart data={data} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
-                            <defs>
-                                <linearGradient id="colorUsers" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="#27AE60" stopOpacity={0.6}/>
-                                    <stop offset="95%" stopColor="#27AE60" stopOpacity={0}/>
-                                </linearGradient>
-                                <linearGradient id="colorReqs" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.4}/>
-                                    <stop offset="95%" stopColor="#3B82F6" stopOpacity={0}/>
-                                </linearGradient>
-                            </defs>
-                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
+                        <LineChart data={data} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.15)" />
                             <XAxis 
                                 dataKey="time" 
                                 axisLine={false} 
@@ -227,29 +217,27 @@ export const AdminRealtimeView = ({ user }: { user: any }) => {
                                 dx={-10} 
                             />
                             <Tooltip content={<CustomTooltip />} cursor={{ stroke: 'rgba(255,255,255,0.1)', strokeWidth: 1, strokeDasharray: '3 3' }} />
-                            <Area 
-                                type="monotone" 
+                            <Line 
+                                type="linear" 
                                 dataKey="users" 
                                 name="Utilisateurs"
-                                stroke="#27AE60" 
-                                strokeWidth={3}
-                                activeDot={{ r: 6, fill: "#27AE60", stroke: "#000", strokeWidth: 2 }}
-                                fillOpacity={1} 
-                                fill="url(#colorUsers)" 
+                                stroke="#8B5CF6" 
+                                strokeWidth={2}
+                                dot={false}
+                                activeDot={{ r: 4, fill: "#8B5CF6", stroke: "#000", strokeWidth: 2 }}
                                 isAnimationActive={false}
                             />
-                            <Area 
-                                type="monotone" 
+                            <Line 
+                                type="linear" 
                                 dataKey="requests" 
                                 name="Requêtes"
-                                stroke="#3B82F6" 
+                                stroke="#F97316" 
                                 strokeWidth={2}
-                                activeDot={{ r: 6, fill: "#3B82F6", stroke: "#000", strokeWidth: 2 }}
-                                fillOpacity={1} 
-                                fill="url(#colorReqs)" 
+                                dot={false}
+                                activeDot={{ r: 4, fill: "#F97316", stroke: "#000", strokeWidth: 2 }}
                                 isAnimationActive={false}
                             />
-                        </AreaChart>
+                        </LineChart>
                     </ResponsiveContainer>
                 </div>
             </div>
@@ -262,7 +250,7 @@ export const AdminRealtimeView = ({ user }: { user: any }) => {
                     { node: "DB-Primary", status: "Syncing", load: "65%" },
                     { node: "Cache-Redis", status: "Online", load: "12%" },
                 ].map((server, i) => (
-                    <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-4 flex items-center justify-between">
+                    <div key={i} className="bg-white/5 border border-white/10 rounded-lg p-4 flex items-center justify-between">
                         <div>
                             <p className="text-xs font-bold text-gray-400 mb-1">{server.node}</p>
                             <p className="text-sm font-black text-white">{server.load}</p>

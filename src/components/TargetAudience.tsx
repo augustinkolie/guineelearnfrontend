@@ -82,7 +82,7 @@ export const TargetAudience = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="bg-white rounded-xl overflow-hidden shadow-xl shadow-gray-100 border border-gray-100 flex flex-col h-full"
+                            className="bg-white rounded-xl overflow-hidden shadow-xl shadow-gray-100 border-2 border-transparent hover:border-emerald-500/40 transition-all duration-300 flex flex-col h-full"
                         >
                             <div className="relative h-36 w-full">
                                 <img

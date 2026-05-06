@@ -13,6 +13,7 @@ import {
     Minus,
     Maximize2
 } from 'lucide-react';
+import { apiCall } from '../utils/api';
 
 interface Message {
     id: string;
@@ -61,9 +62,27 @@ export const AIAssistant = () => {
         setInputValue('');
         setIsTyping(true);
 
-        // Simulate AI Thinking
-        setTimeout(() => {
-            const aiResponse = getMockResponse(userMsg.text);
+        try {
+            const data = await apiCall('/ai/chat', {
+                method: 'POST',
+                body: JSON.stringify({
+                    model: "grok-4.3",
+                    messages: [
+                        {
+                            role: "system",
+                            content: "Tu es l'assistant intelligent de GuinéeLearn, une plateforme éducative en Guinée. Tu aides les élèves et étudiants guinéens dans leur réussite scolaire. Tu es poli, encourageant et expert des programmes scolaires guinéens."
+                        },
+                        ...messages.map(m => ({
+                            role: m.sender === 'ai' ? 'assistant' : 'user',
+                            content: m.text
+                        })),
+                        { role: "user", content: inputValue }
+                    ]
+                })
+            });
+
+            const aiResponse = data.choices[0].message.content;
+
             const aiMsg: Message = {
                 id: (Date.now() + 1).toString(),
                 text: aiResponse,
@@ -71,28 +90,18 @@ export const AIAssistant = () => {
                 timestamp: new Date()
             };
             setMessages(prev => [...prev, aiMsg]);
+        } catch (error) {
+            console.error('Error calling xAI:', error);
+            const errorMsg: Message = {
+                id: (Date.now() + 1).toString(),
+                text: "Désolé, j'ai rencontré une difficulté technique pour me connecter à mon cerveau. Veuillez réessayer dans un instant.",
+                sender: 'ai',
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, errorMsg]);
+        } finally {
             setIsTyping(false);
-        }, 1500);
-    };
-
-    const getMockResponse = (input: string): string => {
-        const text = input.toLowerCase();
-        if (text.includes('inscrit') || text.includes('inscription') || text.includes('compte')) {
-            return "Pour vous inscrire, cliquez sur le bouton 'S'identifier' en haut à droite, puis choisissez 'S'inscrire'. C'est gratuit et vous donne accès à des milliers de ressources !";
         }
-        if (text.includes('prix') || text.includes('tarif') || text.includes('payer')) {
-            return "GuinéeLearn propose une version gratuite pour tous. Nous avons aussi une offre 'Soutien' à 50,000 GNF/mois pour accéder aux cours vidéos premium et au suivi personnalisé.";
-        }
-        if (text.includes('bac') || text.includes('examen')) {
-            return "Nous avons des sections dédiées aux anciens examens du BAC, BEPC et CEP. Vous y trouverez des annales corrigées pour vous entraîner efficacement.";
-        }
-        if (text.includes('cours') || text.includes('matière')) {
-            return "Nous couvrons toutes les matières principales : Mathématiques, Français, Physique, Chimie, Biologie et Économie, du collège au lycée !";
-        }
-        if (text.includes('bonjour') || text.includes('salut')) {
-            return "Bonjour ! Ravi de vous voir sur GuinéeLearn. Je suis là pour répondre à toutes vos questions sur la plateforme.";
-        }
-        return "C'est une excellente question ! En tant qu'assistant en phase bêta, je ne peux pas encore répondre à tout, mais je vous recommande de consulter notre catalogue de cours pour plus de détails.";
     };
 
     return (

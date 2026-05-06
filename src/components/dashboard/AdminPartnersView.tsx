@@ -118,7 +118,7 @@ export const AdminPartnersView = () => {
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 relative">
             {/* Notifications */}
             {notification && (
-                <div className={`fixed top-6 right-6 z-[60] flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl border animate-in slide-in-from-right-full duration-300 ${
+                <div className={`fixed top-6 right-6 z-[60] flex items-center gap-3 px-6 py-4 rounded-lg  border animate-in slide-in-from-right-full duration-300 ${
                     notification.type === 'success' ? 'bg-emerald-50 border-emerald-200 text-emerald-700' : 'bg-red-50 border-red-200 text-red-700'
                 }`}>
                     {notification.type === 'success' ? <CheckCircle2 className="w-5 h-5 font-bold" /> : <AlertCircle className="w-5 h-5" />}
@@ -136,17 +136,17 @@ export const AdminPartnersView = () => {
                     <p className="text-gray-500 font-medium text-xs mt-1">Gérez l'écosystème de soutien et les aides financières.</p>
                 </div>
                 
-                <div className="flex items-center gap-2 p-1 bg-gray-50 rounded-2xl border border-gray-100">
+                <div className="flex items-center gap-2 p-1 bg-gray-50 rounded-lg border border-gray-200">
                     <button 
                         onClick={() => setActiveTab('sponsors')}
-                        className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm transition-all ${activeTab === 'sponsors' ? 'bg-[#1B6B3A] text-white shadow-lg shadow-[#1B6B3A]/20' : 'text-gray-400 hover:text-gray-600'}`}
+                        className={`flex items-center gap-2 px-6 py-2.5 rounded-lg font-bold text-sm  ${activeTab === 'sponsors' ? 'bg-[#1B6B3A] text-white  shadow-[#1B6B3A]/20' : 'text-gray-400 hover:text-gray-600'}`}
                     >
                         <Building className="w-4 h-4" />
                         Sponsors
                     </button>
                     <button 
                         onClick={() => setActiveTab('bourses')}
-                        className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm transition-all ${activeTab === 'bourses' ? 'bg-[#1B6B3A] text-white shadow-lg shadow-[#1B6B3A]/20' : 'text-gray-400 hover:text-gray-600'}`}
+                        className={`flex items-center gap-2 px-6 py-2.5 rounded-lg font-bold text-sm  ${activeTab === 'bourses' ? 'bg-[#1B6B3A] text-white  shadow-[#1B6B3A]/20' : 'text-gray-400 hover:text-gray-600'}`}
                     >
                         <Award className="w-4 h-4" />
                         Bourses
@@ -156,7 +156,7 @@ export const AdminPartnersView = () => {
 
             {/* Quick Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm overflow-hidden relative group">
+                <div className="bg-white p-5 rounded-lg border border-gray-200  overflow-hidden relative group">
                     <div className="absolute -right-2 -top-2 opacity-10 group-hover:scale-110 transition-transform text-gray-200">
                         <Building className="w-14 h-14" />
                     </div>
@@ -171,7 +171,7 @@ export const AdminPartnersView = () => {
                         <h3 className="text-2xl font-black text-[#0F2D1E] leading-none">{sponsors.filter(s => s.status === 'Actif').length.toString().padStart(2, '0')}</h3>
                     </div>
                 </div>
-                <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm overflow-hidden relative group">
+                <div className="bg-white p-5 rounded-lg border border-gray-200  overflow-hidden relative group">
                     <div className="absolute -right-2 -top-2 opacity-10 group-hover:scale-110 transition-transform text-gray-200">
                         <User className="w-14 h-14" />
                     </div>
@@ -183,7 +183,7 @@ export const AdminPartnersView = () => {
                         <h3 className="text-2xl font-black text-[#0F2D1E] leading-none">{bourses.filter(b => b.status === 'En attente').length}</h3>
                     </div>
                 </div>
-                <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm overflow-hidden relative group">
+                <div className="bg-white p-5 rounded-lg border border-gray-200  overflow-hidden relative group">
                     <div className="absolute -right-2 -top-2 opacity-10 group-hover:scale-110 transition-transform">
                         <Globe className="w-14 h-14 text-gray-200" />
                     </div>
@@ -210,12 +210,12 @@ export const AdminPartnersView = () => {
                                     placeholder="Nom du partenaire..." 
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-2 bg-white border border-gray-100 rounded-xl text-sm font-medium focus:border-[#1B6B3A]/20 transition-all outline-none" 
+                                    className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium focus:border-[#1B6B3A]/20  outline-none" 
                                 />
                             </div>
                             <button 
                                 onClick={() => setIsAddSponsorModalOpen(true)}
-                                className="flex items-center gap-2 px-6 py-2.5 bg-[#1B6B3A] text-white rounded-xl font-bold hover:scale-[1.02] transition-all shadow-lg shadow-[#1B6B3A]/20 whitespace-nowrap"
+                                className="flex items-center gap-2 px-6 py-2.5 bg-[#1B6B3A] text-white rounded-lg font-bold    shadow-[#1B6B3A]/20 whitespace-nowrap"
                             >
                                 <Plus className="w-4 h-4" /> Ajouter
                             </button>
@@ -223,14 +223,14 @@ export const AdminPartnersView = () => {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         {filteredSponsors.map((partner) => (
-                            <div key={partner.id} className="bg-white p-3.5 rounded-xl border border-gray-100 shadow-sm space-y-3 hover:border-[#1B6B3A]/30 transition-all group">
+                            <div key={partner.id} className="bg-white p-3.5 rounded-lg border border-gray-200  space-y-3 hover:border-[#1B6B3A]/30  group">
                                 <div className="h-14 w-full bg-gray-50 rounded-lg flex items-center justify-center border border-dashed border-gray-200 group-hover:bg-gray-100 transition-colors">
                                     <Building className="w-6 h-6 text-gray-300" />
                                 </div>
                                 <div>
                                     <div className="flex items-center justify-between mb-0.5">
                                         <h4 className="text-sm font-bold text-[#0F2D1E] truncate pr-2">{partner.name}</h4>
-                                        <div className={`shrink-0 w-1.5 h-1.5 rounded-full ${partner.status === 'Actif' ? 'bg-emerald-50 shadow-lg shadow-emerald-500/50' : 'bg-gray-300'}`} />
+                                        <div className={`shrink-0 w-1.5 h-1.5 rounded-full ${partner.status === 'Actif' ? 'bg-emerald-50  shadow-emerald-500/50' : 'bg-gray-300'}`} />
                                     </div>
                                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-tight">{partner.type}</p>
                                 </div>
@@ -252,13 +252,13 @@ export const AdminPartnersView = () => {
                 </div>
             ) : (
                 <div className="space-y-6">
-                    <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
-                        <div className="flex items-center gap-2 p-1 bg-gray-50 rounded-xl">
+                    <div className="bg-white p-4 rounded-lg border border-gray-200  flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div className="flex items-center gap-2 p-1 bg-gray-50 rounded-lg">
                             {['Tous', 'Demandes', 'Approuvés', 'Refusés'].map((sub) => (
                                 <button 
                                     key={sub} 
                                     onClick={() => setBourseFilter(sub)}
-                                    className={`px-5 py-1.5 rounded-lg font-bold text-xs transition-all ${bourseFilter === sub ? 'bg-white shadow-sm text-[#1B6B3A]' : 'text-gray-400 hover:text-gray-600'}`}
+                                    className={`px-5 py-1.5 rounded-lg font-bold text-xs  ${bourseFilter === sub ? 'bg-white  text-[#1B6B3A]' : 'text-gray-400 hover:text-gray-600'}`}
                                 >
                                     {sub}
                                 </button>
@@ -271,15 +271,15 @@ export const AdminPartnersView = () => {
                                 placeholder="Rechercher un dossier..." 
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-transparent rounded-xl text-sm font-medium focus:bg-white focus:border-[#1B6B3A]/20 transition-all outline-none" 
+                                className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-transparent rounded-lg text-sm font-medium focus:bg-white focus:border-[#1B6B3A]/20  outline-none" 
                             />
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                    <div className="bg-white rounded-lg border border-gray-200  overflow-hidden">
                         <div className="overflow-x-auto">
                             <table className="w-full text-left font-sans">
-                                <thead className="bg-gray-50/50 border-b border-gray-100">
+                                <thead className="bg-gray-50/50 border-b border-gray-200">
                                     <tr>
                                         <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">ID Dossier</th>
                                         <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Élève</th>
@@ -325,14 +325,14 @@ export const AdminPartnersView = () => {
             {/* 1. Add Sponsor Modal */}
             {isAddSponsorModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-md animate-in fade-in duration-300 px-4">
-                    <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl relative z-10 overflow-hidden animate-in zoom-in-95 duration-300">
+                    <div className="bg-white rounded-lg w-full max-w-md  relative z-10 overflow-hidden animate-in zoom-in-95 duration-300">
                         {/* Header */}
-                        <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+                        <div className="p-6 border-b border-gray-200 flex items-center justify-between bg-gray-50/50">
                             <div>
                                 <h3 className="text-lg font-black text-[#0F2D1E]">Nouveau Partenaire</h3>
                                 <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-0.5">Ajout au catalogue</p>
                             </div>
-                            <button onClick={() => setIsAddSponsorModalOpen(false)} className="p-2 hover:bg-white rounded-xl transition-all text-gray-400 hover:text-rose-500 shadow-sm">
+                            <button onClick={() => setIsAddSponsorModalOpen(false)} className="p-2 hover:bg-white rounded-lg  text-gray-400 hover:text-rose-500 ">
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
@@ -345,7 +345,7 @@ export const AdminPartnersView = () => {
                                     placeholder="Ex: UNICEF Guinée"
                                     value={newSponsor.name}
                                     onChange={(e) => setNewSponsor({...newSponsor, name: e.target.value})}
-                                    className="w-full px-4 py-3.5 bg-gray-50 border border-gray-100 rounded-xl font-bold text-sm text-[#0F2D1E] focus:ring-4 focus:ring-[#1B6B3A]/5 outline-none transition-all"
+                                    className="w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-lg font-bold text-sm text-[#0F2D1E] focus:ring-4 focus:ring-[#1B6B3A]/5 outline-none "
                                 />
                             </div>
                             
@@ -356,7 +356,7 @@ export const AdminPartnersView = () => {
                                         <select 
                                             value={newSponsor.type}
                                             onChange={(e) => setNewSponsor({...newSponsor, type: e.target.value})}
-                                            className="w-full px-4 py-3.5 bg-gray-50 border border-gray-100 rounded-xl font-bold text-sm text-gray-600 outline-none appearance-none cursor-pointer"
+                                            className="w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-lg font-bold text-sm text-gray-600 outline-none appearance-none cursor-pointer"
                                         >
                                             <option>Entreprise</option>
                                             <option>Institutionnel</option>
@@ -371,7 +371,7 @@ export const AdminPartnersView = () => {
                                         type="text" required
                                         value={newSponsor.placement}
                                         onChange={(e) => setNewSponsor({...newSponsor, placement: e.target.value})}
-                                        className="w-full px-4 py-3.5 bg-gray-50 border border-gray-100 rounded-xl font-bold text-sm text-[#0F2D1E] focus:ring-4 focus:ring-[#1B6B3A]/5 outline-none transition-all"
+                                        className="w-full px-4 py-3.5 bg-gray-50 border border-gray-200 rounded-lg font-bold text-sm text-[#0F2D1E] focus:ring-4 focus:ring-[#1B6B3A]/5 outline-none "
                                     />
                                 </div>
                             </div>
@@ -380,7 +380,7 @@ export const AdminPartnersView = () => {
                                 <button 
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="w-full py-4 bg-[#1B6B3A] text-white rounded-xl font-black text-sm shadow-lg shadow-[#1B6B3A]/20 hover:bg-[#155230] hover:scale-[1.01] active:scale-[0.98] transition-all flex items-center justify-center gap-3"
+                                    className="w-full py-4 bg-[#1B6B3A] text-white rounded-lg font-black text-sm  shadow-[#1B6B3A]/20 hover:bg-[#155230] hover:scale-[1.01] active:scale-[0.98]  flex items-center justify-center gap-3"
                                 >
                                     {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Confirmer l\'ajout'}
                                 </button>
@@ -393,7 +393,7 @@ export const AdminPartnersView = () => {
             {/* 2. Process Bourse Modal */}
             {isProcessBourseModalOpen && selectedBourse && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md animate-in fade-in duration-300 px-4">
-                    <div className="bg-white rounded-[32px] p-8 max-w-lg w-full shadow-2xl animate-in zoom-in-95 duration-300 text-center">
+                    <div className="bg-white rounded-[32px] p-8 max-w-lg w-full  animate-in zoom-in-95 duration-300 text-center">
                         <div className="w-20 h-20 bg-[#1B6B3A]/10 text-[#1B6B3A] rounded-full flex items-center justify-center mx-auto mb-6">
                             <Award className="w-10 h-10" />
                         </div>
@@ -404,7 +404,7 @@ export const AdminPartnersView = () => {
                             <button 
                                 onClick={() => handleProcessBourse('Refusé')}
                                 disabled={isSubmitting}
-                                className="py-4 border-2 border-rose-100 text-rose-500 rounded-2xl font-black hover:bg-rose-50 hover:border-rose-200 transition-all flex flex-col items-center justify-center gap-2"
+                                className="py-4 border-2 border-rose-100 text-rose-500 rounded-lg font-black hover:bg-rose-50 hover:border-rose-200  flex flex-col items-center justify-center gap-2"
                             >
                                 <XCircle className="w-6 h-6" />
                                 Refuser
@@ -412,7 +412,7 @@ export const AdminPartnersView = () => {
                             <button 
                                 onClick={() => handleProcessBourse('Approuvé')}
                                 disabled={isSubmitting}
-                                className="py-4 bg-emerald-500 text-white rounded-2xl font-black shadow-lg shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex flex-col items-center justify-center gap-2"
+                                className="py-4 bg-emerald-500 text-white rounded-lg font-black  shadow-emerald-500/20  active:scale-[0.98]  flex flex-col items-center justify-center gap-2"
                             >
                                 <CheckCircle2 className="w-6 h-6" />
                                 Approuver

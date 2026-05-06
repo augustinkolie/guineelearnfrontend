@@ -53,7 +53,7 @@ const FEATURE_CATEGORIES = [
     }
 ];
 
-export const Navbar = () => {
+export const Navbar = ({ forceOpaque = false }: { forceOpaque?: boolean }) => {
     const [scrolled, setScrolled] = useState(false);
     const [showProfileMenu, setShowProfileMenu] = useState(false);
     const [showFeaturesMenu, setShowFeaturesMenu] = useState(false);
@@ -117,10 +117,10 @@ export const Navbar = () => {
     };
 
     return (
-        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-white py-1.5 shadow-lg" : "bg-transparent py-2.5"
+        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${(scrolled || forceOpaque) ? "bg-white py-1.5 shadow-lg" : "bg-transparent py-2.5"
             }`}>
             <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
-                <Logo scrolled={scrolled} height="h-12" />
+                <Logo scrolled={scrolled || forceOpaque} height="h-12" />
 
                 <div className="hidden md:flex items-center gap-6">
                     {/* FEATURES MEGAMENU TRIGGER */}
@@ -131,7 +131,7 @@ export const Navbar = () => {
                     >
                         <button 
                             className={`flex items-center gap-1.5 transition-colors text-sm font-bold tracking-tight outline-none ${
-                                scrolled ? "text-[#0F2D1E] hover:text-[#1B6B3A]" : "text-gray-100 hover:text-white"
+                                (scrolled || forceOpaque) ? "text-[#0F2D1E] hover:text-[#1B6B3A]" : "text-gray-100 hover:text-white"
                             }`}
                         >
                             Fonctionnalités
@@ -145,14 +145,16 @@ export const Navbar = () => {
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                     exit={{ opacity: 0, y: 15, scale: 0.98 }}
                                     className={`absolute left-1/2 -translate-x-1/2 top-full mt-4 w-[600px] rounded-xl shadow-2xl border overflow-hidden ${
-                                        scrolled ? "bg-white border-gray-100" : "bg-[#0F2D1E]/95 backdrop-blur-xl border-white/10"
+                                        (scrolled || forceOpaque) ? "bg-white border-gray-100" : "bg-[#0F2D1E]/95 backdrop-blur-xl border-white/10"
                                     }`}
                                 >
                                     <div className="grid grid-cols-3 p-2">
                                         {FEATURE_CATEGORIES.map((cat) => (
-                                            <div key={cat.title} className="p-4 border-r last:border-0 border-gray-100/10">
+                                            <div key={cat.title} className={`p-4 border-r last:border-0 ${
+                                                (scrolled || forceOpaque) ? "border-gray-100" : "border-gray-100/10"
+                                            }`}>
                                                 <div className={`flex items-center gap-2 mb-4 text-[10px] font-black uppercase tracking-[0.15em] ${
-                                                    scrolled ? "text-[#1B6B3A]" : "text-emerald-400"
+                                                    (scrolled || forceOpaque) ? "text-[#1B6B3A]" : "text-emerald-400"
                                                 }`}>
                                                     {cat.icon}
                                                     {cat.title}
@@ -163,20 +165,20 @@ export const Navbar = () => {
                                                             key={item.title}
                                                             href="#"
                                                             className={`block p-3 rounded-lg transition-all group ${
-                                                                scrolled 
+                                                                (scrolled || forceOpaque) 
                                                                 ? "hover:bg-gray-50" 
                                                                 : "hover:bg-white/10"
                                                             }`}
                                                         >
                                                             <div className="flex items-center gap-3">
                                                                 <div className={`transition-transform group-hover:scale-110 ${
-                                                                    scrolled ? "text-gray-400" : "text-white/40"
+                                                                    (scrolled || forceOpaque) ? "text-gray-400" : "text-white/40"
                                                                 }`}>
                                                                     {item.icon}
                                                                 </div>
                                                                 <div>
                                                                     <p className={`text-xs font-bold mb-0.5 ${
-                                                                        scrolled ? "text-[#0F2D1E]" : "text-white"
+                                                                        (scrolled || forceOpaque) ? "text-[#0F2D1E]" : "text-white"
                                                                     }`}>
                                                                         {item.title}
                                                                     </p>
@@ -192,7 +194,7 @@ export const Navbar = () => {
                                         ))}
                                     </div>
                                     <div className={`p-4 text-center border-t text-[10px] font-bold uppercase tracking-widest ${
-                                        scrolled ? "bg-gray-50 border-gray-100 text-[#1B6B3A]" : "bg-white/5 border-white/10 text-emerald-400"
+                                        (scrolled || forceOpaque) ? "bg-gray-50 border-gray-100 text-[#1B6B3A]" : "bg-white/5 border-white/10 text-emerald-400"
                                     }`}>
                                         <Link href="#" className="hover:underline">Découvrir l'écosystème complet GuinéeLearn →</Link>
                                     </div>
@@ -201,8 +203,8 @@ export const Navbar = () => {
                         </AnimatePresence>
                     </div>
 
-                    <Link href="/about" className={`transition-colors text-sm font-bold tracking-tight ${scrolled ? "text-[#0F2D1E] hover:text-[#1B6B3A]" : "text-gray-100 hover:text-white"}`}>À Propos</Link>
-                    <Link href="/contact" className={`transition-colors text-sm font-bold tracking-tight ${scrolled ? "text-[#0F2D1E] hover:text-[#1B6B3A]" : "text-gray-100 hover:text-white"}`}>Contact</Link>
+                    <Link href="/about" className={`transition-colors text-sm font-bold tracking-tight ${(scrolled || forceOpaque) ? "text-[#0F2D1E] hover:text-[#1B6B3A]" : "text-gray-100 hover:text-white"}`}>À Propos</Link>
+                    <Link href="/contact" className={`transition-colors text-sm font-bold tracking-tight ${(scrolled || forceOpaque) ? "text-[#0F2D1E] hover:text-[#1B6B3A]" : "text-gray-100 hover:text-white"}`}>Contact</Link>
                     
                     <div className="relative">
                         {isLoggedIn ? (
@@ -214,20 +216,20 @@ export const Navbar = () => {
                                         setShowProfileMenu(!showProfileMenu);
                                     }}
                                     className={`flex items-center gap-3 p-1.5 pr-4 rounded-2xl transition-all border outline-none ${
-                                        scrolled 
+                                        (scrolled || forceOpaque)
                                         ? "bg-transparent border-gray-200 hover:border-[#1B6B3A]/30" 
                                         : "bg-transparent border-white/20 hover:bg-white/10"
                                     }`}
                                 >
                                     <div className={`h-9 w-9 rounded-full flex items-center justify-center overflow-hidden transition-all border ${
-                                        scrolled 
+                                        (scrolled || forceOpaque) 
                                         ? "bg-[#E8F5EE] border-[#1B6B3A]/10 text-[#1B6B3A]" 
                                         : "bg-white/10 border-white/20 text-white"
                                     }`}>
                                         <User className="w-5 h-5" />
                                     </div>
                                     <div className="text-left">
-                                        <p className={`text-sm font-medium leading-none tracking-tight ${scrolled ? "text-[#0F2D1E]" : "text-white"}`}>
+                                        <p className={`text-sm font-medium leading-none tracking-tight ${(scrolled || forceOpaque) ? "text-[#0F2D1E]" : "text-white"}`}>
                                             {userData ? userData.fullName : 'Chargement...'}
                                         </p>
                                     </div>
@@ -283,7 +285,7 @@ export const Navbar = () => {
                             <Link 
                                 href="/login" 
                                 className={`transition-all text-sm font-medium px-8 py-2.5 rounded-xl border ${
-                                    scrolled 
+                                    (scrolled || forceOpaque) 
                                     ? "text-[#1B6B3A] border-[#1B6B3A]/20 hover:bg-[#1B6B3A] hover:text-white" 
                                     : "text-white border-white/30 hover:bg-white/10"
                                 }`}
@@ -300,7 +302,7 @@ export const Navbar = () => {
                         <Link 
                             href="/dashboard"
                             className={`p-2 rounded-xl border transition-all ${
-                                scrolled ? "bg-[#E8F5EE] border-[#1B6B3A]/10 text-[#1B6B3A]" : "bg-white/10 border-white/20 text-white"
+                                (scrolled || forceOpaque) ? "bg-[#E8F5EE] border-[#1B6B3A]/10 text-[#1B6B3A]" : "bg-white/10 border-white/20 text-white"
                             }`}
                         >
                             <LayoutDashboard className="w-5 h-5" />
@@ -312,7 +314,7 @@ export const Navbar = () => {
                             setIsMobileMenuOpen(!isMobileMenuOpen);
                         }}
                         className={`p-2 rounded-xl transition-colors ${
-                            scrolled ? "text-[#0F2D1E] hover:bg-gray-100" : "text-white hover:bg-white/10"
+                            (scrolled || forceOpaque) ? "text-[#0F2D1E] hover:bg-gray-100" : "text-white hover:bg-white/10"
                         }`}
                     >
                         {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}

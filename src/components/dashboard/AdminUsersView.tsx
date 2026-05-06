@@ -25,6 +25,13 @@ import {
 } from 'lucide-react';
 import { apiCall } from '@/utils/api';
 
+const schoolLevelsMapping: Record<string, string[]> = {
+    "Primaire": ["1ère Année", "2ème Année", "3ème Année", "4ème Année", "5ème Année", "6ème Année"],
+    "Collège": ["7ème Année", "8ème Année", "9ème Année", "10ème Année"],
+    "Lycée": ["11ème SM", "11ème SE", "11ème SS", "12ème SM", "12ème SE", "12ème SS", "TSM", "TSE", "TSS"],
+    "Université": ["Licence 1", "Licence 2", "Licence 3", "Master", "Doctorat"]
+};
+
 interface AdminUsersViewProps {
     user: any;
     profile?: any;
@@ -48,8 +55,9 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
     // Invite modal
     const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
     const [inviteForm, setInviteForm] = useState({
-        fullName: '', email: '', phone: '', role: 'STUDENT', password: '', schoolLevel: 'Terminale', subjects: ''
+        fullName: '', email: '', phone: '', role: 'STUDENT', password: '', schoolLevel: '', subjects: ''
     });
+    const [activeCategory, setActiveCategory] = useState<string>('');
 
     const fetchUsers = async () => {
         setIsLoading(true);
@@ -177,7 +185,7 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
                 <h3 className="text-xl font-bold text-[#0F2D1E]">{error}</h3>
                 <button 
                     onClick={fetchUsers}
-                    className="mt-2 px-6 py-2 bg-[#1B6B3A] text-white rounded-xl font-bold"
+                    className="mt-2 px-6 py-2 bg-[#1B6B3A] text-white rounded-lg font-bold"
                 >
                     Réessayer
                 </button>
@@ -189,7 +197,7 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* Notifications */}
             {notification && (
-                <div className={`fixed top-4 right-4 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl border animate-in slide-in-from-right-full duration-300 ${
+                <div className={`fixed top-4 right-4 z-50 flex items-center gap-3 px-6 py-4 rounded-lg  border animate-in slide-in-from-right-full duration-300 ${
                     notification.type === 'success' ? 'bg-emerald-50 border-emerald-200 text-emerald-700' : 'bg-red-50 border-red-200 text-red-700'
                 }`}>
                     {notification.type === 'success' ? <CheckCircle2 className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
@@ -205,14 +213,14 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
                 </div>
                 <button 
                     onClick={() => setIsInviteModalOpen(true)}
-                    className="flex items-center gap-2 px-6 py-2.5 bg-[#1B6B3A] text-white rounded-xl font-bold text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-[#1B6B3A]/20 disabled:opacity-50"
+                    className="flex items-center gap-2 px-6 py-2.5 bg-[#1B6B3A] text-white rounded-lg font-bold text-sm  active:scale-[0.98]   shadow-[#1B6B3A]/20 disabled:opacity-50"
                 >
                     <UserPlus className="w-4 h-4" /> Inviter un utilisateur
                 </button>
             </div>
 
             {/* Controls */}
-            <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col md:flex-row gap-4">
+            <div className="bg-white p-4 rounded-lg border border-gray-200  flex flex-col md:flex-row gap-4">
                 <div className="relative flex-1">
                     <Search className="w-5 h-5 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" />
                     <input 
@@ -220,7 +228,7 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
                         placeholder="Rechercher par nom ou email..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none transition-all placeholder:text-gray-400"
+                        className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none  placeholder:text-gray-400"
                     />
                 </div>
                 <div className="flex items-center gap-2 min-w-[200px]">
@@ -228,7 +236,7 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
                     <select 
                         value={roleFilter}
                         onChange={(e) => setRoleFilter(e.target.value)}
-                        className="flex-1 py-3 px-4 bg-gray-50 border border-gray-100 rounded-xl text-sm font-bold text-gray-600 outline-none focus:ring-2 focus:ring-[#1B6B3A]/20 cursor-pointer"
+                        className="flex-1 py-3 px-4 bg-gray-50 border border-gray-200 rounded-lg text-sm font-bold text-gray-600 outline-none focus:ring-2 focus:ring-[#1B6B3A]/20 cursor-pointer"
                     >
                         <option value="ALL">Tous les rôles</option>
                         <option value="STUDENT">Étudiants</option>
@@ -240,7 +248,7 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
             </div>
 
             {/* Users Table */}
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="bg-white rounded-lg border border-gray-200  overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
                         <thead>
@@ -254,7 +262,7 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
                         </thead>
                         <tbody className="divide-y divide-gray-50">
                             {filteredUsers.map((u) => (
-                                <tr key={u.id} className={`hover:bg-gray-50/30 transition-all group ${u.status === 'SUSPENDED' ? 'opacity-60' : ''}`}>
+                                <tr key={u.id} className={`hover:bg-gray-50/30  group ${u.status === 'SUSPENDED' ? 'opacity-60' : ''}`}>
                                     <td className="px-6 py-3">
                                         <div className="flex items-center gap-3">
                                             <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs border ${
@@ -297,28 +305,25 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
                                         <div className="flex items-center justify-end gap-1 text-gray-400">
                                             <button 
                                                 onClick={() => { setUserToShow(u); setIsDetailsModalOpen(true); }}
-                                                className="p-1.5 hover:bg-[#E8F5EE] hover:text-[#1B6B3A] rounded-lg transition-all" 
+                                                className="p-1.5 hover:bg-[#E8F5EE] hover:text-[#1B6B3A] rounded-lg " 
                                                 title="Voir les détails"
                                             >
                                                 <ChevronRight className="w-4 h-4" />
                                             </button>
+                                            {/* Toggle Switch - User Status */}
                                             <button 
-                                                onClick={() => handleToggleStatus(u)}
-                                                className={`p-1.5 rounded-lg transition-all ${
-                                                    u.status === 'SUSPENDED' 
-                                                        ? 'hover:bg-emerald-50 hover:text-emerald-600 text-amber-400' 
-                                                        : 'hover:bg-amber-50 hover:text-amber-500'
+                                                onClick={(e) => { e.stopPropagation(); handleToggleStatus(u); }}
+                                                className={`relative w-9 h-4.5 rounded-full  duration-300 focus:outline-none ${
+                                                    u.status === 'SUSPENDED' ? 'bg-gray-200' : 'bg-[#1B6B3A]'
                                                 }`}
-                                                title={u.status === 'SUSPENDED' ? 'Réactiver le compte' : 'Suspendre le compte'}
                                             >
-                                                {u.status === 'SUSPENDED' 
-                                                    ? <ShieldCheck className="w-4 h-4" /> 
-                                                    : <Ban className="w-4 h-4" />
-                                                }
+                                                <div className={`absolute top-0.5 left-0.5 w-3.5 h-3.5 bg-white rounded-full shadow-xs transition-transform duration-300 ${
+                                                    u.status === 'SUSPENDED' ? 'translate-x-0' : 'translate-x-4.5'
+                                                }`} />
                                             </button>
                                             <button 
                                                 onClick={() => { setUserToEdit(u); setIsEditModalOpen(true); }}
-                                                className="p-1.5 hover:bg-[#E8F5EE] hover:text-[#1B6B3A] rounded-lg transition-all" 
+                                                className="p-1.5 hover:bg-[#E8F5EE] hover:text-[#1B6B3A] rounded-lg " 
                                                 title="Modifier"
                                             >
                                                 <Edit2 className="w-4 h-4" />
@@ -344,16 +349,16 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
             {/* Details Modal */}
             {isDetailsModalOpen && userToShow && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-                    <div className="bg-white rounded-2xl p-8 max-w-lg w-full mx-4 shadow-2xl animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
+                    <div className="bg-white rounded-lg p-8 max-w-lg w-full mx-4  animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
                         <div className="flex items-center justify-between mb-8">
                             <h2 className="text-2xl font-black text-[#0F2D1E]">Détails Utilisateur</h2>
-                            <button onClick={() => setIsDetailsModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-xl transition-all">
+                            <button onClick={() => setIsDetailsModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-lg ">
                                 <X className="w-6 h-6 text-gray-400" />
                             </button>
                         </div>
                         <div className="space-y-6">
-                            <div className="flex items-center gap-6 p-6 bg-gray-50 rounded-2xl border border-gray-50">
-                                <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center text-[#1B6B3A] text-3xl font-black shadow-sm border border-gray-100">
+                            <div className="flex items-center gap-6 p-6 bg-gray-50 rounded-lg border border-gray-50">
+                                <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center text-[#1B6B3A] text-3xl font-black  border border-gray-200">
                                     {userToShow.fullName.charAt(0)}
                                 </div>
                                 <div className="space-y-1">
@@ -370,14 +375,14 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <div className="space-y-1.5">
                                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Téléphone</p>
-                                    <div className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-xl font-semibold text-sm text-[#0F2D1E]">
+                                    <div className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-lg font-semibold text-sm text-[#0F2D1E]">
                                         {userToShow.phone || 'Non renseigné'}
                                     </div>
                                 </div>
                                 
                                 <div className="space-y-1.5">
                                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Date d'inscription</p>
-                                    <div className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-xl font-semibold text-sm text-[#0F2D1E]">
+                                    <div className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-lg font-semibold text-sm text-[#0F2D1E]">
                                         {new Date(userToShow.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
                                     </div>
                                 </div>
@@ -387,25 +392,25 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
                                     <>
                                         <div className="space-y-1.5">
                                             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Niveau scolaire</p>
-                                            <div className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-xl font-semibold text-sm text-[#0F2D1E]">
+                                            <div className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-lg font-semibold text-sm text-[#0F2D1E]">
                                                 {userToShow.studentProfile.schoolLevel}
                                             </div>
                                         </div>
                                         <div className="space-y-1.5">
                                             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Série / Option</p>
-                                            <div className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-xl font-semibold text-sm text-[#0F2D1E]">
+                                            <div className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-lg font-semibold text-sm text-[#0F2D1E]">
                                                 {userToShow.studentProfile.track || 'Général'}
                                             </div>
                                         </div>
                                         <div className="space-y-1.5 col-span-full">
                                             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Établissement</p>
-                                            <div className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-xl font-semibold text-sm text-[#0F2D1E]">
+                                            <div className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-lg font-semibold text-sm text-[#0F2D1E]">
                                                 {userToShow.studentProfile.schoolName || 'Non renseigné'}
                                             </div>
                                         </div>
                                         <div className="space-y-1.5 col-span-full">
                                             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Ville / Localité</p>
-                                            <div className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-xl font-semibold text-sm text-[#0F2D1E]">
+                                            <div className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-lg font-semibold text-sm text-[#0F2D1E]">
                                                 {userToShow.studentProfile.city || 'Non renseigné'}
                                             </div>
                                         </div>
@@ -416,13 +421,13 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
                                     <>
                                         <div className="space-y-1.5 col-span-full">
                                             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Matières enseignées</p>
-                                            <div className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-xl font-semibold text-sm text-[#0F2D1E]">
+                                            <div className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-lg font-semibold text-sm text-[#0F2D1E]">
                                                 {userToShow.teacherProfile.subjects}
                                             </div>
                                         </div>
                                         <div className="space-y-1.5">
                                             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Expérience</p>
-                                            <div className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-xl font-semibold text-sm text-[#0F2D1E]">
+                                            <div className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-lg font-semibold text-sm text-[#0F2D1E]">
                                                 {userToShow.teacherProfile.experienceYears || '0'} ans
                                             </div>
                                         </div>
@@ -437,10 +442,10 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
             {/* Edit Modal */}
             {isEditModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-                    <div className="bg-white rounded-2xl p-8 max-w-lg w-full mx-4 shadow-2xl animate-in zoom-in-95 duration-200">
+                    <div className="bg-white rounded-lg p-8 max-w-lg w-full mx-4  animate-in zoom-in-95 duration-200">
                         <div className="flex items-center justify-between mb-8">
                             <h2 className="text-2xl font-black text-[#0F2D1E]">Modifier Utilisateur</h2>
-                            <button onClick={() => setIsEditModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-xl transition-all">
+                            <button onClick={() => setIsEditModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-lg ">
                                 <X className="w-6 h-6 text-gray-400" />
                             </button>
                         </div>
@@ -452,7 +457,7 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
                                     required
                                     value={userToEdit.fullName}
                                     onChange={(e) => setUserToEdit({...userToEdit, fullName: e.target.value})}
-                                    className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl font-bold text-[#0F2D1E] focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none transition-all"
+                                    className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-lg font-bold text-[#0F2D1E] focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none "
                                 />
                             </div>
                             <div className="space-y-2">
@@ -462,7 +467,7 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
                                     required
                                     value={userToEdit.email}
                                     onChange={(e) => setUserToEdit({...userToEdit, email: e.target.value})}
-                                    className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl font-bold text-[#0F2D1E] focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none transition-all"
+                                    className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-lg font-bold text-[#0F2D1E] focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none "
                                 />
                             </div>
                             <div className="space-y-2">
@@ -470,7 +475,7 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
                                 <select 
                                     value={userToEdit.role}
                                     onChange={(e) => setUserToEdit({...userToEdit, role: e.target.value})}
-                                    className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl font-bold text-[#0F2D1E] focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none transition-all appearance-none cursor-pointer"
+                                    className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-lg font-bold text-[#0F2D1E] focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none  appearance-none cursor-pointer"
                                 >
                                     <option value="STUDENT">Étudiant</option>
                                     <option value="TEACHER">Professeur</option>
@@ -481,7 +486,7 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
                             <button 
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="w-full py-5 bg-[#1B6B3A] text-white rounded-2xl font-black text-lg shadow-xl shadow-[#1B6B3A]/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 mt-4"
+                                className="w-full py-5 bg-[#1B6B3A] text-white rounded-lg font-black text-lg  shadow-[#1B6B3A]/20  active:scale-[0.98]  flex items-center justify-center gap-3 mt-4"
                             >
                                 {isSubmitting ? <Loader2 className="w-6 h-6 animate-spin" /> : 'Enregistrer les modifications'}
                             </button>
@@ -493,13 +498,13 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
             {/* Invite / Create User Modal */}
             {isInviteModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-                    <div className="bg-white rounded-2xl p-8 max-w-xl w-full mx-4 shadow-2xl animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
+                    <div className="bg-white rounded-lg p-8 max-w-xl w-full mx-4  animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
                         <div className="flex items-center justify-between mb-4">
                             <div>
                                 <h2 className="text-xl font-black text-[#0F2D1E]">Inviter un utilisateur</h2>
                                 <p className="text-gray-400 text-[11px] font-semibold mt-1">Créez un compte directement depuis l'interface administrateur.</p>
                             </div>
-                            <button onClick={() => setIsInviteModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-xl transition-all">
+                            <button onClick={() => setIsInviteModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-lg ">
                                 <X className="w-5 h-5 text-gray-400" />
                             </button>
                         </div>
@@ -512,7 +517,7 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
                                         value={inviteForm.fullName}
                                         onChange={(e) => setInviteForm({...inviteForm, fullName: e.target.value})}
                                         placeholder="Ex: Mamadou Diallo"
-                                        className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-xl font-semibold text-sm text-[#0F2D1E] focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none transition-all placeholder:font-normal placeholder:text-gray-400"
+                                        className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-lg font-semibold text-sm text-[#0F2D1E] focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none  placeholder:font-normal placeholder:text-gray-400"
                                     />
                                 </div>
                                 <div className="space-y-1.5">
@@ -521,7 +526,7 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
                                         value={inviteForm.email}
                                         onChange={(e) => setInviteForm({...inviteForm, email: e.target.value})}
                                         placeholder="Ex: m.diallo@email.com"
-                                        className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-xl font-semibold text-sm text-[#0F2D1E] focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none transition-all placeholder:font-normal placeholder:text-gray-400"
+                                        className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-lg font-semibold text-sm text-[#0F2D1E] focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none  placeholder:font-normal placeholder:text-gray-400"
                                     />
                                 </div>
                                 <div className="space-y-1.5">
@@ -530,7 +535,7 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
                                         value={inviteForm.phone}
                                         onChange={(e) => setInviteForm({...inviteForm, phone: e.target.value})}
                                         placeholder="Ex: 621 00 00 00"
-                                        className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-xl font-semibold text-sm text-[#0F2D1E] focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none transition-all placeholder:font-normal placeholder:text-gray-400"
+                                        className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-lg font-semibold text-sm text-[#0F2D1E] focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none  placeholder:font-normal placeholder:text-gray-400"
                                     />
                                 </div>
                                 <div className="space-y-1.5">
@@ -538,7 +543,7 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
                                     <select required
                                         value={inviteForm.role}
                                         onChange={(e) => setInviteForm({...inviteForm, role: e.target.value})}
-                                        className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-xl font-semibold text-sm text-[#0F2D1E] focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none transition-all appearance-none cursor-pointer"
+                                        className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-lg font-semibold text-sm text-[#0F2D1E] focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none  appearance-none cursor-pointer"
                                     >
                                         <option value="STUDENT">Étudiant</option>
                                         <option value="TEACHER">Professeur</option>
@@ -547,24 +552,41 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
                                     </select>
                                 </div>
 
-                                {/* Conditional: Student level */}
                                 {inviteForm.role === 'STUDENT' && (
-                                    <div className="space-y-1.5">
-                                        <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Niveau scolaire</label>
-                                        <select
-                                            value={inviteForm.schoolLevel}
-                                            onChange={(e) => setInviteForm({...inviteForm, schoolLevel: e.target.value})}
-                                            className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-xl font-semibold text-sm text-[#0F2D1E] focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none transition-all appearance-none cursor-pointer"
-                                        >
-                                            <option>Terminale</option>
-                                            <option>1ère</option>
-                                            <option>2ème</option>
-                                            <option>3ème</option>
-                                            <option>Licence 1</option>
-                                            <option>Licence 2</option>
-                                            <option>Licence 3</option>
-                                        </select>
-                                    </div>
+                                    <>
+                                        <div className="space-y-1.5">
+                                            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Niveau Global</label>
+                                            <select
+                                                value={activeCategory}
+                                                onChange={(e) => {
+                                                    const cat = e.target.value;
+                                                    setActiveCategory(cat);
+                                                    setInviteForm({ ...inviteForm, schoolLevel: schoolLevelsMapping[cat]?.[0] || '' });
+                                                }}
+                                                className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-lg font-semibold text-sm text-[#0F2D1E] focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none  appearance-none cursor-pointer"
+                                            >
+                                                <option value="">Sélectionner Niveau</option>
+                                                {Object.keys(schoolLevelsMapping).map(cat => (
+                                                    <option key={cat} value={cat}>{cat}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Classe / Année</label>
+                                            <select
+                                                required
+                                                disabled={!activeCategory}
+                                                value={inviteForm.schoolLevel}
+                                                onChange={(e) => setInviteForm({...inviteForm, schoolLevel: e.target.value})}
+                                                className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-lg font-semibold text-sm text-[#0F2D1E] focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none  appearance-none cursor-pointer disabled:opacity-50"
+                                            >
+                                                <option value="">Sélectionner Classe</option>
+                                                {activeCategory && schoolLevelsMapping[activeCategory].map(cls => (
+                                                    <option key={cls} value={cls}>{cls}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </>
                                 )}
 
                                 {/* Conditional: Teacher subjects */}
@@ -575,7 +597,7 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
                                             value={inviteForm.subjects}
                                             onChange={(e) => setInviteForm({...inviteForm, subjects: e.target.value})}
                                             placeholder="Ex: Mathématiques, Physique"
-                                            className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-xl font-semibold text-sm text-[#0F2D1E] focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none transition-all placeholder:font-normal placeholder:text-gray-400"
+                                            className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-lg font-semibold text-sm text-[#0F2D1E] focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none  placeholder:font-normal placeholder:text-gray-400"
                                         />
                                     </div>
                                 )}
@@ -586,7 +608,7 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
                                         value={inviteForm.password}
                                         onChange={(e) => setInviteForm({...inviteForm, password: e.target.value})}
                                         placeholder="Minimum 6 caractères"
-                                        className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-xl font-semibold text-sm text-[#0F2D1E] focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none transition-all placeholder:font-normal placeholder:text-gray-400"
+                                        className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-lg font-semibold text-sm text-[#0F2D1E] focus:ring-2 focus:ring-[#1B6B3A]/20 outline-none  placeholder:font-normal placeholder:text-gray-400"
                                     />
                                     <p className="text-[10px] text-gray-400 ml-1 mt-1">L'utilisateur devra changer ce mot de passe à sa première connexion.</p>
                                 </div>
@@ -595,7 +617,7 @@ export const AdminUsersView = ({ user }: AdminUsersViewProps) => {
                             <button 
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="w-full py-4 bg-[#1B6B3A] text-white rounded-xl font-bold text-sm shadow-xl shadow-[#1B6B3A]/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 mt-4"
+                                className="w-full py-4 bg-[#1B6B3A] text-white rounded-lg font-bold text-sm  shadow-[#1B6B3A]/20  active:scale-[0.98]  flex items-center justify-center gap-2 mt-4"
                             >
                                 {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <><UserPlus className="w-5 h-5" /> Créer le compte</>}
                             </button>
