@@ -40,7 +40,7 @@ export const MissionSection = () => {
             {/* CTA */}
             <div className="pt-2">
               <Link href="/register">
-                <button className="px-8 py-4 bg-[#1B6B3A] hover:bg-[#155230] text-white font-bold text-base rounded-xl transition-all transform hover:-translate-y-1 active:scale-95 shadow-xl shadow-[#1B6B3A]/25">
+                <button className="px-8 py-4 bg-[#1B6B3A] hover:bg-[#155230] text-white font-bold text-base rounded-lg transition-all transform hover:-translate-y-1 active:scale-95 shadow-xl shadow-[#1B6B3A]/25">
                   Rejoindre GuinéeLearn gratuitement
                 </button>
               </Link>

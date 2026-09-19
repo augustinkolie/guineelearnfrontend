@@ -67,7 +67,7 @@ export default function MessagesPage() {
 
     return (
         <DashboardLayout user={data.user}>
-            <MessagesView />
+            <MessagesView currentUserId={data.user.id} />
         </DashboardLayout>
     );
 }

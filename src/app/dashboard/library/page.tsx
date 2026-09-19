@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { apiCall } from '@/utils/api';
 import { DashboardLayout } from '@/components/DashboardLayout';
 import { StudentLibraryView } from '@/components/dashboard/StudentLibraryView';
-import { Loader2 } from 'lucide-center';
 import { Loader2 as LoaderIcon } from 'lucide-react';
 
 export default function LibraryPage() {
@@ -74,7 +73,7 @@ export default function LibraryPage() {
 
     return (
         <DashboardLayout user={data.user}>
-            <StudentLibraryView user={data.user} />
+            <StudentLibraryView user={data.user} profile={data.profile} />
         </DashboardLayout>
     );
 }

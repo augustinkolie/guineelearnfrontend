@@ -90,10 +90,10 @@ export const Hero = () => {
                         </p>
 
                         <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-10">
-                            <button className="bg-[#1B6B3A] hover:bg-[#155230] text-white px-8 py-3.5 rounded-xl font-bold text-base transition-all transform hover:scale-105 active:scale-95 shadow-2xl shadow-[#1B6B3A]/40 w-full md:w-auto tracking-wide">
+                            <button className="bg-[#1B6B3A] hover:bg-[#155230] text-white px-8 py-3.5 rounded-lg font-bold text-base transition-all transform hover:scale-105 active:scale-95 shadow-2xl shadow-[#1B6B3A]/40 w-full md:w-auto tracking-wide">
                                 Commencer gratuitement
                             </button>
-                            <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 text-white px-8 py-3.5 rounded-xl font-bold text-base transition-all transform hover:scale-105 active:scale-95 w-full md:w-auto tracking-wide">
+                            <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 text-white px-8 py-3.5 rounded-lg font-bold text-base transition-all transform hover:scale-105 active:scale-95 w-full md:w-auto tracking-wide">
                                 Découvrir la plateforme
                             </button>
                         </div>

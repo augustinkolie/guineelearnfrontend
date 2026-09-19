@@ -540,7 +540,18 @@ export const SummaryView = ({ profile }: { profile: any }) => {
                                                     <span className="text-gray-700 font-medium">{children}</span>
                                                 </li>
                                             ),
-                                            strong: ({children}) => <strong className="font-black text-[#0F2D1E] bg-emerald-100 px-1 rounded">{children}</strong>
+                                            strong: ({children}) => <strong className="font-black text-[#0F2D1E] bg-emerald-100 px-1 rounded">{children}</strong>,
+                                            table: ({children}) => (
+                                                <div className="my-8 overflow-x-auto border border-gray-200">
+                                                    <table className="w-full border-collapse bg-white text-sm text-left">
+                                                        {children}
+                                                    </table>
+                                                </div>
+                                            ),
+                                            thead: ({children}) => <thead className="bg-white border-b border-gray-200">{children}</thead>,
+                                            th: ({children}) => <th className="px-6 py-3 font-semibold text-[11px] text-gray-500 uppercase tracking-wider border-r border-gray-100 last:border-r-0">{children}</th>,
+                                            td: ({children}) => <td className="px-6 py-4 text-gray-600 border-b border-gray-100 border-r border-gray-100 last:border-r-0 font-medium">{children}</td>,
+                                            tr: ({children}) => <tr className="hover:bg-gray-50 transition-colors even:bg-gray-50/50">{children}</tr>
                                         }}
                                     >
                                         {result || ''}
@@ -583,6 +594,10 @@ export const SummaryView = ({ profile }: { profile: any }) => {
                                                         </li>
                                                     ),
                                                     strong: ({children}) => <strong style={{ fontWeight: '800', color: '#0F2D1E', borderBottom: '1px solid #1B6B3A' }}>{children}</strong>,
+                                                    table: ({children}) => <table style={{ width: '100%', borderCollapse: 'collapse', margin: '25px 0', border: '1px solid #e2e8f0', pageBreakInside: 'avoid' }}>{children}</table>,
+                                                    thead: ({children}) => <thead style={{ backgroundColor: '#ffffff', borderBottom: '1px solid #e2e8f0' }}>{children}</thead>,
+                                                    th: ({children}) => <th style={{ padding: '10px 15px', textAlign: 'left', fontSize: '10px', fontWeight: '600', color: '#64748b', textTransform: 'uppercase', borderRight: '1px solid #f1f5f9' }}>{children}</th>,
+                                                    td: ({children}) => <td style={{ padding: '12px 15px', borderBottom: '1px solid #f1f5f9', borderRight: '1px solid #f1f5f9', fontSize: '11px', color: '#334155', fontWeight: '500' }}>{children}</td>,
                                                     blockquote: ({children}) => (
                                                         <div style={{ borderLeft: '3px solid #1B6B3A', padding: '15px', margin: '20px 0', backgroundColor: '#ffffff', pageBreakInside: 'avoid' }}>
                                                             <p style={{ fontSize: '13px', fontStyle: 'italic', color: '#475569', margin: 0 }}>{children}</p>

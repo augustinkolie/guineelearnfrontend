@@ -35,6 +35,7 @@ export const TeachersSection = () => {
                       src="/assets/images/student-teacher-1.png" 
                       alt="Portrait élève 1"
                       fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
                       className="object-cover"
                     />
                   </div>
@@ -56,6 +57,7 @@ export const TeachersSection = () => {
                       src="/assets/images/etudiant.png" 
                       alt="Étudiant"
                       fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
                       className="object-cover"
                     />
                   </div>
@@ -77,6 +79,7 @@ export const TeachersSection = () => {
                       src="/assets/images/lyceenne.png" 
                       alt="Lycéenne"
                       fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
                       className="object-cover"
                     />
                   </div>

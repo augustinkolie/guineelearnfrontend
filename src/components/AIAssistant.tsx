@@ -13,6 +13,11 @@ import {
     Minus,
     Maximize2
 } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import remarkGfm from 'remark-gfm';
+import rehypeKatex from 'rehype-katex';
+import 'katex/dist/katex.min.css';
 import { apiCall } from '../utils/api';
 
 interface Message {
@@ -66,7 +71,7 @@ export const AIAssistant = () => {
             const data = await apiCall('/ai/chat', {
                 method: 'POST',
                 body: JSON.stringify({
-                    model: "grok-4.3",
+                    model: "llama-3.1-8b-instant",
                     messages: [
                         {
                             role: "system",
@@ -91,7 +96,7 @@ export const AIAssistant = () => {
             };
             setMessages(prev => [...prev, aiMsg]);
         } catch (error) {
-            console.error('Error calling xAI:', error);
+            console.error('Error calling Groq AI:', error);
             const errorMsg: Message = {
                 id: (Date.now() + 1).toString(),
                 text: "Désolé, j'ai rencontré une difficulté technique pour me connecter à mon cerveau. Veuillez réessayer dans un instant.",
@@ -169,7 +174,28 @@ export const AIAssistant = () => {
                                             ? 'bg-[#1B6B3A] text-white rounded-br-none shadow-lg shadow-[#1B6B3A]/20' 
                                             : 'bg-white text-gray-700 border border-gray-100 rounded-bl-none shadow-sm'
                                         }`}>
-                                            <p className="leading-relaxed">{msg.text}</p>
+                                            <div className={`prose prose-sm max-w-none ${msg.sender === 'user' ? 'prose-invert' : 'prose-emerald'}`}>
+                                                <ReactMarkdown
+                                                    remarkPlugins={[remarkMath, remarkGfm]}
+                                                    rehypePlugins={[rehypeKatex]}
+                                                    components={{
+                                                        table: ({children}) => (
+                                                            <div className="my-3 overflow-x-auto border border-gray-200">
+                                                                <table className="w-full border-collapse bg-white text-[10px] text-left">
+                                                                    {children}
+                                                                </table>
+                                                            </div>
+                                                        ),
+                                                        thead: ({children}) => <thead className="bg-white border-b border-gray-200">{children}</thead>,
+                                                        th: ({children}) => <th className="px-3 py-2 font-semibold text-[9px] text-gray-400 uppercase tracking-wider border-r border-gray-100 last:border-r-0">{children}</th>,
+                                                        td: ({children}) => <td className="px-3 py-2 text-gray-600 border-b border-gray-100 border-r border-gray-100 last:border-r-0 font-medium">{children}</td>,
+                                                        tr: ({children}) => <tr className="hover:bg-gray-50 transition-colors even:bg-gray-50/50">{children}</tr>,
+                                                        p: ({children}) => <p className="m-0 leading-relaxed">{children}</p>
+                                                    }}
+                                                >
+                                                    {msg.text}
+                                                </ReactMarkdown>
+                                            </div>
                                             <span className={`text-[9px] mt-1 block opacity-50 ${msg.sender === 'user' ? 'text-right' : 'text-left'}`}>
                                                 {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                             </span>
@@ -210,7 +236,7 @@ export const AIAssistant = () => {
                                     </button>
                                 </div>
                                 <p className="text-[10px] text-gray-400 text-center mt-3 font-medium uppercase tracking-widest">
-                                    Assistant Propulsé par <span className="text-[#1B6B3A] font-bold">GuinéeLearn AI</span>
+                                    Assistant Propulsé par <span className="text-[#1B6B3A] font-bold">Groq Llama 3.1</span>
                                 </p>
                             </div>
                         </motion.div>

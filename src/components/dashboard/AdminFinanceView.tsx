@@ -361,11 +361,11 @@ export const AdminFinanceView = ({ user }: { user: any }) => {
                                                 <div className="space-y-2">
                                                     <div className="flex items-center justify-between gap-6">
                                                         <span className="text-xs font-bold text-gray-500 italic">Recettes</span>
-                                                        <span className="text-sm font-black text-emerald-600">+{payload[0]?.value.toLocaleString()} GNF</span>
+                                                        <span className="text-sm font-black text-emerald-600">+{Number(payload[0]?.value || 0).toLocaleString()} GNF</span>
                                                     </div>
                                                     <div className="flex items-center justify-between gap-6">
                                                         <span className="text-xs font-bold text-gray-500 italic">Dépenses</span>
-                                                        <span className="text-sm font-black text-rose-600">-{payload[1]?.value.toLocaleString()} GNF</span>
+                                                        <span className="text-sm font-black text-rose-600">-{Number(payload[1]?.value || 0).toLocaleString()} GNF</span>
                                                     </div>
                                                 </div>
                                             </div>

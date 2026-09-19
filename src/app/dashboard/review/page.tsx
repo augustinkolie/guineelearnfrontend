@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { apiCall } from '@/utils/api';
 import { DashboardLayout } from '@/components/DashboardLayout';
@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function ReviewPage() {
+function ReviewPageContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const lessonId = searchParams.get('id');
@@ -287,5 +287,18 @@ export default function ReviewPage() {
                 </AnimatePresence>
             </div>
         </DashboardLayout>
+    );
+}
+
+export default function ReviewPage() {
+    return (
+        <Suspense fallback={
+            <div className="h-screen w-full flex flex-col items-center justify-center bg-white gap-4">
+                <Loader2 className="w-12 h-12 text-[#1B6B3A] animate-spin" />
+                <p className="text-[#0F2D1E] font-bold">Chargement de la session...</p>
+            </div>
+        }>
+            <ReviewPageContent />
+        </Suspense>
     );
 }

@@ -132,10 +132,10 @@ export const CTA = () => {
                         transition={{ duration: 0.5, delay: 0.2 }}
                         className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10"
                     >
-                        <button className="w-full sm:w-auto px-5 py-2.5 bg-[#27AE60] hover:bg-[#219150] text-white font-black text-base rounded-xl transition-all transform hover:scale-105 active:scale-95 shadow-2xl shadow-[#27AE60]/20">
+                        <button className="w-full sm:w-auto px-5 py-2.5 bg-[#27AE60] hover:bg-[#219150] text-white font-black text-base rounded-lg transition-all transform hover:scale-105 active:scale-95 shadow-2xl shadow-[#27AE60]/20">
                             Commencer gratuitement
                         </button>
-                        <button className="w-full sm:w-auto px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold text-base rounded-xl border-2 border-white/20 backdrop-blur-sm transition-all transform active:scale-95">
+                        <button className="w-full sm:w-auto px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold text-base rounded-lg border-2 border-white/20 backdrop-blur-sm transition-all transform active:scale-95">
                             Se connecter
                         </button>
                     </motion.div>

@@ -128,7 +128,7 @@ export const Pricing = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className={`relative bg-white rounded-xl p-6 flex flex-col h-full shadow-2xl shadow-gray-200/50 border-2 transition-all duration-300 hover:border-emerald-500/40 ${plan.highlighted ? "border-[#1B6B3A] pb-1.5" : "border-transparent pb-6 md:pb-8"
+                            className={`relative bg-white rounded-lg p-6 flex flex-col h-full shadow-2xl shadow-gray-200/50 border-2 transition-all duration-300 hover:border-emerald-500/40 ${plan.highlighted ? "border-[#1B6B3A] pb-1.5" : "border-gray-100/50 pb-6 md:pb-8"
                                 }`}
                         >
                             {plan.badge && (
@@ -169,7 +169,7 @@ export const Pricing = () => {
 
                             <button 
                                 onClick={() => handlePlanClick(plan)}
-                                className={`w-full py-4 rounded-xl text-white font-bold text-base transition-all transform active:scale-95 shadow-xl ${plan.buttonColor}`}
+                                className={`w-full py-4 rounded-lg text-white font-bold text-base transition-all transform active:scale-95 shadow-xl ${plan.buttonColor}`}
                             >
                                 {plan.buttonText}
                             </button>

@@ -116,7 +116,7 @@ export const TargetAudience = () => {
                                     ))}
                                 </ul>
 
-                                <button className={`w-full py-3.5 rounded-xl text-white font-bold text-base transition-all transform active:scale-95 shadow-lg ${audience.buttonColor}`}>
+                                <button className={`w-full py-3.5 rounded-lg text-white font-bold text-base transition-all transform active:scale-95 shadow-lg ${audience.buttonColor}`}>
                                     Découvrir
                                 </button>
                             </div>

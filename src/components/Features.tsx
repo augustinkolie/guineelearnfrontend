@@ -108,9 +108,9 @@ export const Features = () => {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                                    className="p-6 rounded-2xl bg-white border border-gray-100 hover:border-[#1B6B3A]/30 hover:shadow-xl hover:shadow-[#1B6B3A]/5 transition-all group flex flex-col h-full"
+                                    className="p-6 rounded-lg bg-white border border-gray-100/80 hover:border-[#1B6B3A]/30 hover:shadow-xl hover:shadow-[#1B6B3A]/5 transition-all group flex flex-col h-full"
                                 >
-                                    <div className="w-12 h-12 rounded-xl bg-[#F4F6F5] text-[#1B6B3A] group-hover:bg-[#1B6B3A] group-hover:text-white transition-colors flex items-center justify-center mb-5 shrink-0 border border-gray-100/50">
+                                    <div className="w-12 h-12 rounded-md bg-[#F4F6F5] text-[#1B6B3A] group-hover:bg-[#1B6B3A] group-hover:text-white transition-colors flex items-center justify-center mb-5 shrink-0 border border-gray-100/30">
                                         {feature.icon}
                                     </div>
                                     <div>

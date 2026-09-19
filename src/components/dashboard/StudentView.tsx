@@ -18,8 +18,10 @@ import {
     Target,
     Award,
     Calendar,
-    Zap
+    Zap,
+    Sparkles
 } from 'lucide-react';
+import { apiCall } from '@/utils/api';
 import { StudentLibraryView } from './StudentLibraryView';
 import { 
     AreaChart, 
@@ -183,6 +185,39 @@ export const StudentView = ({ user, profile }: StudentViewProps) => {
         fetchDueLessons();
     }, [user.id]);
 
+    const handleExportHistory = () => {
+        if (!profile?.activities || profile.activities.length === 0) {
+            alert("Aucun historique à exporter pour le moment.");
+            return;
+        }
+
+        // CSV Header
+        let csvContent = "data:text/csv;charset=utf-8,Date,Matiere,Lecon,Status,Progression,Temps Passe\n";
+        
+        // CSV Rows
+        profile.activities.forEach((act: any) => {
+            const date = new Date(act.createdAt).toLocaleDateString('fr-FR');
+            const row = [
+                `"${date}"`,
+                `"${act.subject}"`,
+                `"${act.lesson}"`,
+                `"${act.status}"`,
+                `"${act.progress}%"`,
+                `"${act.timeSpent || 'N/A'}"`
+            ].join(",");
+            csvContent += row + "\n";
+        });
+
+        // Trigger Download
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `historique_guineelearn_${user.firstName}_${new Date().toLocaleDateString()}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     const quizData = profile?.quizResults?.length > 0 ? profile.quizResults : [
         { subject: 'Maths', score: 85, average: 65 },
         { subject: 'Physique', score: 72, average: 68 },
@@ -253,54 +288,6 @@ export const StudentView = ({ user, profile }: StudentViewProps) => {
 
     return (
         <div className="space-y-8 animate-in fade-in duration-700">
-            {/* Spaced Repetition Section */}
-            {dueLessons.length > 0 && (
-                <div className="bg-[#1B6B3A] px-8 py-10 rounded-md relative overflow-hidden group">
-                    
-                    <div className="relative z-10">
-                        <div className="flex items-center gap-3 mb-4">
-                            <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20">
-                                <Sparkles className="w-5 h-5 text-white" />
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-bold text-white">À revoir aujourd'hui</h3>
-                                <p className="text-xs text-white/60 font-medium">Ne laissez pas vos connaissances s'échapper !</p>
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            {dueLessons.slice(0, 3).map((item) => (
-                                <div key={item.id} className="bg-white/10 backdrop-blur-md border border-white/10 p-4 rounded-xl flex items-center justify-between hover:bg-white/20 transition-all group/item">
-                                    <div className="flex items-center gap-3 overflow-hidden">
-                                        <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
-                                            <BookOpen className="w-5 h-5 text-emerald-400" />
-                                        </div>
-                                        <div className="overflow-hidden">
-                                            <p className="text-sm font-bold text-white truncate">{item.resource?.title}</p>
-                                            <p className="text-[10px] font-medium text-emerald-300 uppercase tracking-wider">{item.resource?.subject}</p>
-                                        </div>
-                                    </div>
-                                    <Link 
-                                        href={`/dashboard/review?id=${item.lessonId}`}
-                                        className="p-2 bg-[#1B6B3A] text-white rounded-lg hover:bg-[#10B981] transition-all group-hover/item:translate-x-1"
-                                    >
-                                        <ArrowRight className="w-4 h-4" />
-                                    </Link>
-                                </div>
-                            ))}
-                            {dueLessons.length > 3 && (
-                                <Link 
-                                    href="/dashboard/review"
-                                    className="bg-white/5 border border-dashed border-white/20 p-4 rounded-xl flex items-center justify-center hover:bg-white/10 transition-all group/more"
-                                >
-                                    <span className="text-sm font-bold text-white/80 mr-2">+{dueLessons.length - 3} autres</span>
-                                    <ArrowRight className="w-4 h-4 text-white/40 group-hover/more:translate-x-1 transition-transform" />
-                                </Link>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            )}
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <StatCard icon={Target} label="Score Global" value={`${profile?.globalScore || 0}%`} color="bg-blue-50 text-blue-600" chartColor="#2563EB" />
@@ -519,7 +506,11 @@ export const StudentView = ({ user, profile }: StudentViewProps) => {
                             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Vos sessions d'apprentissage récentes</p>
                         </div>
                     </div>
-                    <button className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-bold text-gray-600 hover:bg-gray-50 ">
+                    <button 
+                        onClick={handleExportHistory}
+                        className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-bold text-gray-600 hover:bg-gray-50 active:scale-95 transition-all flex items-center gap-2"
+                    >
+                        <FileText className="w-4 h-4 text-gray-400" />
                         Exporter l'historique
                     </button>
                 </div>

@@ -21,7 +21,6 @@ import {
     Check
 } from 'lucide-react';
 import { apiCall, BASE_URL } from '@/utils/api';
-import { PdfThumbnail } from './PdfThumbnail';
 
 interface StudentLibraryViewProps {
     user: any;

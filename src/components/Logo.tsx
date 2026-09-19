@@ -9,6 +9,7 @@ export const Logo = ({ scrolled = false, className = "", height = "h-10" }: { sc
                 src="/assets/images/logo_no_bg1.png"
                 alt="GuinéeLearn Icon"
                 fill
+                sizes="(max-width: 768px) 100vw, 40px"
                 className="object-contain"
                 priority
             />
